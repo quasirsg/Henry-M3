@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>pledge.spec.ch1.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="pledge.spec.ch1.html">
+                  pledge.spec.ch1.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch2.html">
+                  pledge.spec.ch2.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch3.html">
+                  pledge.spec.ch3.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch4.html">
+                  pledge.spec.ch4.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch5.html">
+                  pledge.spec.ch5.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>pledge.spec.ch1.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Promises Workshop: Construye una implementación de un Constructor</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Vamos a construir una libreria de promesas similar a ES6, llamada
+pledge.js. Nuestras promesas van a llamarse “$Promise” para evitar disparar
+código existente del browser. Para concentrarte en los conceptos, pledge.js
+va usar muchas variables públicas y no ser obediente al standard.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Para ejecutar los spec, corre <code>npm test</code> en este directorio. Cuando pases un
+test, cambia el siguiente test pendiente a activo. Este spec es iterativo y
+opinionado; haz los tests en orden.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+
+
+describe(<span class="hljs-string">'Capitulo 1: Estructura y Estado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+<span class="hljs-comment">/*======================================================
+
+
+                           d888
+                          d8888
+                            888
+                            888
+                            888
+                            888
+                            888
+                          8888888
+
+
+Chapter 1: Estructura básica y Cambios de Estado
+--------------------------------------------------------*/</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Comencemos con una parte esencial y empecemos a
+definir como se construye la promesa, el argumento <code>executor</code>,
+y resolution / rejection.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*========================================================*/</span>
+
+<span class="hljs-comment">/* global $Promise */</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Incluso antes  de las ES6 <code>class</code>, devs normalmente llamaban ciertas
+funciones como “clases”. A pesar que JS no es un lenguaje basado en clases,
+todavía tendemos hablar en terminos de constructores e instancias</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+describe(<span class="hljs-string">'La clase `$Promise`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+  it(<span class="hljs-string">'es una función'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    expect( <span class="hljs-keyword">typeof</span> $<span class="hljs-built_in">Promise</span> ).toBe( <span class="hljs-string">'function'</span> );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>El único argumento de un contructor de una promesa es una función llamada
+el “executor”. Vamos a volver a esta función mas adelante.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'puede ser llamado con una argumento de función (el "executor"), devolviendo una nueva instancia de promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> executor = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{};
+    <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(executor);
+    expect( promise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe( <span class="hljs-literal">true</span> );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>El chequeo de tipo imita el rigor de promesas reales de ES6</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'arroja un error descriptivo si es llamado sin función como argumento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> nonFunctions = [<span class="hljs-literal">null</span>, <span class="hljs-string">'bonjour'</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-number">452</span>, {}, <span class="hljs-literal">false</span>];
+    nonFunctions.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nonFunction</span>) </span>{
+      expect(callingNewPromiseWith(nonFunction)).toThrowError(
+        <span class="hljs-built_in">TypeError</span>,
+        /executor.+<span class="hljs-function"><span class="hljs-keyword">function</span>/<span class="hljs-title">i</span> // <span class="hljs-title">cualquier</span> <span class="hljs-title">mensaje</span> <span class="hljs-title">de</span> <span class="hljs-title">error</span> <span class="hljs-title">conteniendo</span> "<span class="hljs-title">executor</span> <span class="hljs-title">y</span> <span class="hljs-title">luego</span> "<span class="hljs-title">function</span>"
+      );
+    });
+    <span class="hljs-title">function</span> <span class="hljs-title">callingNewPromiseWith</span> (<span class="hljs-params">argument</span>) </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mightThrowError</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(argument); <span class="hljs-comment">// eslint-disable-line no-unused-vars</span>
+      };
+    }
+  });
+
+});
+
+describe(<span class="hljs-string">'Una instancia de promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+  <span class="hljs-keyword">var</span> promise;
+  beforeEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> executor = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{};
+    promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(executor);
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Las promesas internamente tienen un estado (cambiando informacion), que a
+su vez afecta como se comporta. Promises son como una maquina de estado.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>JavaScript carece algunos controles de privacidad comparado a otros
+lenguajes. Una convención común es usar un esquema de nombres para
+marcar un método como “privado”. Comenzando métodos con un <code>._underscore</code>
+es una señal de esto.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'comienza con un estado interno "pending"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    expect( promise._state ).toBe( <span class="hljs-string">'pending'</span> );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Nota - las promesas no estan supuestas a tener un método resolver
+y rejector público. Sin embargo, esconder estas implementaciones puede
+ser complicado.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'tiene un método de instancia `._internalResolve` '</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    expect( <span class="hljs-keyword">typeof</span> promise._internalResolve ).toBe( <span class="hljs-string">'function'</span> );
+  });
+
+  xit(<span class="hljs-string">'tiene un métido de instancia `._internalReject`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    expect( <span class="hljs-keyword">typeof</span> promise._internalReject ).toBe( <span class="hljs-string">'function'</span> );
+    expect( promise._internalReject ).not.toBe( promise._internalResolve );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Tenemos una base configurada, ahora trabajemos en el comportamiento</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  describe(<span class="hljs-string">'resolviendo '</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+    xit(<span class="hljs-string">'cambia el estado de la promesa a "fulfilled"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>¿Por qué no “resolved”? Esto va a ser visto en detalle en el Ch. 5,
+pero por ahora sabe que la terminología de P/A+ estricto dibuja una
+distinción entre “resolution” y “fullfillment”. Normalmente una
+promesa “resolved” esta también “fulfilled”, pero en un caso
+particular, una promesa “resolved” es realmente “rejectes”. No
+tenes que saber por qué aún.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+      promise._internalResolve();
+      expect( promise._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
+    });
+
+    xit(<span class="hljs-string">'puede enviar data a la promesa para almacenamiento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> someData = { <span class="hljs-attr">name</span>: <span class="hljs-string">'Harry Potter'</span> };
+      promise._internalResolve( someData );
+      expect( promise._value ).toBe( someData );
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Pista: usa el estado pending.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">'no afecta una promesa ya completada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> data1 = { <span class="hljs-attr">name</span>: <span class="hljs-string">'Harry Potter'</span> };
+      <span class="hljs-keyword">var</span> data2 = { <span class="hljs-attr">name</span>: <span class="hljs-string">'Gandalf'</span> };
+      promise._internalResolve( data1 );
+      promise._internalResolve( data2 );
+      expect( promise._value ).toBe( data1 );
+    });
+
+    xit(<span class="hljs-string">'funciona hasta con valores falsos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> data1; <span class="hljs-comment">// undefined; podría funcionar también con null, 0, false, etc.</span>
+      <span class="hljs-keyword">var</span> data2 = <span class="hljs-string">'oops!'</span>;
+      promise._internalResolve( data1 );
+      promise._internalResolve( data2 );
+      expect( promise._value ).toBe( data1 );
+    });
+
+  });
+
+  describe(<span class="hljs-string">'rechazando '</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Rejection y fulfillment son virtualmente idénticas. esto no deberia
+requerir mucho mas código</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">'cambia el estado de la promesa a "rejected"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      promise._internalReject();
+      expect( promise._state ).toBe( <span class="hljs-string">'rejected'</span> );
+    });
+
+    xit(<span class="hljs-string">'puede enviar una razón a la promesa para almacenamiento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> myReason = { <span class="hljs-attr">error</span>: <span class="hljs-string">'bad request'</span> };
+      promise._internalReject( myReason );
+      expect( promise._value ).toBe( myReason );
+    });
+
+    xit(<span class="hljs-string">'no afecta un promesa ya rechazada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> reason1 = { <span class="hljs-attr">error</span>: <span class="hljs-string">'bad request'</span> };
+      <span class="hljs-keyword">var</span> reason2 = { <span class="hljs-attr">error</span>: <span class="hljs-string">'timed out'</span> };
+      promise._internalReject( reason1 );
+      promise._internalReject( reason2 );
+      expect( promise._value ).toBe( reason1 );
+    });
+
+    xit(<span class="hljs-string">'funciona hasta con valores falsos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> reason1;
+      <span class="hljs-keyword">var</span> reason2 = <span class="hljs-string">'oops!'</span>;
+      promise._internalReject( reason1 );
+      promise._internalReject( reason2 );
+      expect( promise._value ).toBe( reason1 );
+    });
+
+  });
+
+  describe(<span class="hljs-string">'una promesa colocada nunca cambia el estado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Si usaste el estado pending para los specs “no afecta un promesa ya
+completada /rechazada”, estos dos specs deberían ya estar pasando.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">'`reject` no sobreescribe fullfilled'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      promise._internalResolve( <span class="hljs-string">'Dumbledore'</span> );
+      promise._internalReject( <span class="hljs-number">404</span> );
+      expect( promise._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
+      expect( promise._value ).toBe( <span class="hljs-string">'Dumbledore'</span> );
+    });
+
+    xit(<span class="hljs-string">'`resolve` no sobreescribe rejected'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      promise._internalReject( <span class="hljs-number">404</span> );
+      promise._internalResolve( <span class="hljs-string">'Dumbledore'</span> );
+      expect( promise._state ).toBe( <span class="hljs-string">'rejected'</span> );
+      expect( promise._value ).toBe( <span class="hljs-number">404</span> );
+    });
+
+  });
+
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>El constructor Promise toma un argumento (de hecho, ES6 Promise <em>tienen</em>
+que recibir este argumento, o arrojar un error): una función “executor”.
+El executro va a ser llamado con dos argumentos: un “resolver
+y un “rejector”</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>El executor es una forma para el creador de una nueva promesa de controlar
+el destino de esa promesa. Recuerda, <code>._internalResolve</code> es como nosotros
+estamos implementando nuestras promesas, pero los usuarios normalmente no
+pretendemos que tengan acceso a eso directmente. Esto es principalmente
+para prevenir abuso: promises son pretendidas para representar el
+resultado de una acción asincrónica, pero si <em>cualquiera</em> puede llamar
+<code>.internalResolve</code>, no podemos confiar más que la promesa se coloca por
+el async original. Dado que el executor solo corre cuando la promesa es
+construida, el acceso al resolver y rejector es naturalmente limitado,
+haciendo la promesa más confiable.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+describe(<span class="hljs-string">'La función executor'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+  <span class="hljs-keyword">var</span> executor;
+  beforeEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    executor = jasmine.createSpy();
+  });
+
+  xit(<span class="hljs-string">'es llamada cuando hacemos una nueva $Promise'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    expect( executor ).not.toHaveBeenCalled();
+    <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(executor); <span class="hljs-comment">// eslint-disable-line no-unused-vars</span>
+    expect( executor ).toHaveBeenCalled();
+  });
+
+  xit(<span class="hljs-string">'es llamado con dos funciones distintas (funception!), resolve y reject'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(executor); <span class="hljs-comment">// eslint-disable-line no-unused-vars</span>
+    <span class="hljs-keyword">var</span> argsPassedIntoExecutor = executor.calls.argsFor(<span class="hljs-number">0</span>);
+
+    expect(argsPassedIntoExecutor.length).toBe(<span class="hljs-number">2</span>);
+    <span class="hljs-keyword">var</span> resolve = argsPassedIntoExecutor[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">var</span> reject = argsPassedIntoExecutor[<span class="hljs-number">1</span>];
+
+    expect( <span class="hljs-keyword">typeof</span> resolve ).toBe( <span class="hljs-string">'function'</span> );
+    expect( <span class="hljs-keyword">typeof</span> reject ).toBe( <span class="hljs-string">'function'</span> );
+    expect( resolve ).not.toBe( reject );
+  });
+
+  describe(<span class="hljs-string">'argumento resolve'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Para este punto puedes intentar una aproximación, solo para ser bloqueado
+por errores como “cannot read X of undefined”. Piensa cuidadosamente;
+puedes tener un problema con el <em>contexto</em> (el keyword <code>this</code>)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    xit(<span class="hljs-string">'resuelve la promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve</span>) </span>{
+        resolve(<span class="hljs-string">'WinGARdium leviOHsa.'</span>);
+      });
+      expect( promise._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
+      expect( promise._value ).toBe( <span class="hljs-string">'WinGARdium leviOHsa.'</span> );
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>No hagas trampa! La función resolver y rejector provistar al executor
+deberian ser (o llamar) a los metodos resolve y reject internos. Después
+de todo, trabajaste muy duro para asegurarte <code>._internalResolve</code> y
+<code>._internalReject</code> funcionan apropiadamente.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">'es indistinguible en comportamiento a `._internalResolve`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> resolver;
+      <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve</span>) </span>{
+        resolve(<span class="hljs-string">'Use the promise machinery, Luke.'</span>);
+        resolver = resolve;
+      });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Podemos estropear el estado?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      resolver(<span class="hljs-string">'No, Luke. I am your resolver.'</span>);
+      promise._internalReject(<span class="hljs-string">"No, that's impossible!"</span>);
+      promise._internalResolve(<span class="hljs-string">'Search your feelings, Luke.'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>No, <code>resolve</code> es o usa <code>._internalResolve</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      expect( promise._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
+      expect( promise._value ).toBe( <span class="hljs-string">'Use the promise machinery, Luke.'</span> );
+    });
+
+  });
+
+  describe(<span class="hljs-string">'argumento reject'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>De nuevo, la resolución y el rechazo son basicamente lo mismo.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">'rechaza la promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{
+        reject(<span class="hljs-string">'Stupefy!'</span>);
+      });
+      expect( promise._state ).toBe( <span class="hljs-string">'rejected'</span> );
+      expect( promise._value ).toBe( <span class="hljs-string">'Stupefy!'</span> );
+    });
+
+    xit(<span class="hljs-string">'es indistinguible en comportamiento a `._internalReject`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> rejector;
+      <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{
+        reject(<span class="hljs-string">'You must unlearn what you have learned.'</span>);
+        rejector = reject;
+      });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Podemos estropear el estado?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      rejector(<span class="hljs-string">'No! Try not. Do. Or do not. There is no try.'</span>);
+      promise._internalReject(<span class="hljs-string">"I don't believe it!"</span>);
+      promise._internalResolve(<span class="hljs-string">'That is why you fail.'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>No, <code>reject</code> es o usa <code>._internalReject</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      expect( promise._state ).toBe( <span class="hljs-string">'rejected'</span> );
+      expect( promise._value ).toBe( <span class="hljs-string">'You must unlearn what you have learned.'</span> );
+    });
+
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Esta parte debería pasar si hiciste lo de arriba correctamente.
+Seguí la lógica:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'por lo tanto permite al *creator* de una nueva promes controlar su destino, incluso asincrónicamente!'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+
+    <span class="hljs-keyword">var</span> promise3 = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve</span>) </span>{
+      setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">runsInTheFuture</span> (<span class="hljs-params"></span>) </span>{
+        resolve(<span class="hljs-string">'Wow, the future is so cool.'</span>);
+      }, <span class="hljs-number">50</span>);
+    });
+
+    expect( promise3._state ).toBe( <span class="hljs-string">'pending'</span> );
+    expect( promise3._value ).toBe( <span class="hljs-literal">undefined</span> );
+
+    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">runsInTheFarFuture</span> (<span class="hljs-params"></span>) </span>{
+      expect( promise3._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
+      expect( promise3._value ).toBe( <span class="hljs-string">'Wow, the future is so cool.'</span> );
+      done();
+    }, <span class="hljs-number">100</span>);
+  });
+
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>A este punto tenemos unos hechos básicos establecidos. Una promesa empieza
+con un estado <em>pending</em> y ningun valor. En un punto, la promesa puede estar
+<em>fulfilled</em> con data, o <em>rejected</em> con una razón. Una vez <em>colocada</em> (
+fulfilled o rejected), una promesa esta trabada en ese estado y no puede ser
+cambiada.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>No te olvides de <code>git commit</code>!</p>
+
+            </div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

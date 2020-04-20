@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>pledge.spec.ch5.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="pledge.spec.ch1.html">
+                  pledge.spec.ch1.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch2.html">
+                  pledge.spec.ch2.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch3.html">
+                  pledge.spec.ch3.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch4.html">
+                  pledge.spec.ch4.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch5.html">
+                  pledge.spec.ch5.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>pledge.spec.ch5.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
+describe(<span class="hljs-string">'Capítulo 5: Métodos estáticos `.resolve` y `.all`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+<span class="hljs-comment">/*=======================================================
+
+
+                        888888888
+                        888
+                        888
+                        8888888b.
+                             "Y88b
+                               888
+                        Y88b  d88P
+                         "Y8888P
+
+
+Capítulo 5: Credito Extra: Métodos estáticos `.resolve` y `.all`
+---------------------------------------------------------*/</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Promises por si mismo tiene muchas ventajas sobre callbacks,
+principalmente cuando se trata con <em>composibilidad</em> - combinando
+y orquestrando múltiples resultados asincrónicos. Habiendo dicho
+eso, prácticamente cada libreria de promesas provee un par de
+helper functions para hacer la composición de promesas aún más
+fácil. En este capítulo vas a implementar dos de los mas cruciales
+metodos estáticos, tan utiles que son partes del ES6 spec para
+promesas (EcmaScript sigue, pero también va mas alla de, P/A+).</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>NOTA ESPECIAL: La mejores soluciones para este capítulo NO LLAMAN
+<code>_internalResolve</code> <code>_internalReject</code> directamente. En cambio, pueden
+resolverse enteramente usando las partes públicas de tu libreria $Promise.
+Recuerda: la función executor da acceso público al resolver / rejector.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*========================================================*/</span>
+
+<span class="hljs-comment">/* global $Promise customMatchers */</span>
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = <span class="hljs-number">250</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">noop</span> (<span class="hljs-params"></span>) </span>{}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p><code>$Promise.resolve</code> no es exactamente la misma cosa como un resolver,
+al menos no en Pledge (depende de tu implementación de la libreria
+de promises).</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+describe(<span class="hljs-string">'El método estático `$Promise.resolve`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+  xit(<span class="hljs-string">'es una función, y no una que ya hemos escrito'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    expect( <span class="hljs-keyword">typeof</span> $<span class="hljs-built_in">Promise</span>.resolve ).toBe( <span class="hljs-string">'function'</span> );
+    <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+    expect( $<span class="hljs-built_in">Promise</span>.resolve ).not.toBe( promise._internalResolve );
+  });
+
+  xit(<span class="hljs-string">'toma un &lt;valor plano A&gt; y devuelve una &lt;promesa para A&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    [<span class="hljs-number">42</span>, <span class="hljs-string">'hi'</span>, {}, <span class="hljs-literal">undefined</span>, /cool/, <span class="hljs-literal">false</span>].forEach(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {
+      <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.resolve(value);
+      expect( promise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe( <span class="hljs-literal">true</span> );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>No setea el estado y valor manualmente; llama un resolver.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      expect( promise._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
+      expect( promise._value ).toBe( value );
+    });
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Esto sería mas complejo con “then”s, pero vamos a ignorar eso.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'toma una &lt;promesa para A&gt; y devuelve la misma &lt;promesa para A&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> firstPromise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+    <span class="hljs-keyword">var</span> secondPromise = $<span class="hljs-built_in">Promise</span>.resolve(firstPromise);
+    expect( secondPromise ).toBe( firstPromise );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Como puedes ver, <code>$Promise.resolve</code> “normaliza” valores que puede
+o puede que no sean promesas. Los valores se convierten en promesas
+y las promesas se mantienen como promesas. ¿No estas seguro que algo
+es una promesa? Usa <code>$Promise.resolve</code>.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Este spec debería ya funcionar si lo de arriba funciona.
+Lee a través de las assertions y tratá de entender que demuestran.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'demuestra porque "resolved" y "fulfilled" no son sinónimos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> rejectedPromise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{
+      reject();
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Y ahora la revelación:</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> result = $<span class="hljs-built_in">Promise</span>.resolve(rejectedPromise); <span class="hljs-comment">// RESOLVIENDO...</span>
+    expect( result._state ).toBe( <span class="hljs-string">'rejected'</span> ); <span class="hljs-comment">// ...pero RECHAZADA!</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Hemos “resuelto” pero igual terminado con una promesa rechazada.
+Asi que “resolve” realmente significa <em>intento</em> de completarla(fulfill).
+Eso funciona con valores normales, o promesas que ya estan completadas.
+Sin embargo, no podemos mentir y aclamar que una promesa ya rechazada
+es ahora mágicamente completada, sin haber manejado la razón de rechazo.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  });
+
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p><code>Promise.all</code> es uno de los métodos más útiles en cualquier async
+toolkit. El método <code>then</code> nos dió encadenamiento serial; <code>all</code> nos
+da espera paralela.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+describe(<span class="hljs-string">'El método estático `$Promise.all`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+  <span class="hljs-keyword">var</span> SMALL_DELAY = <span class="hljs-number">10</span>;
+  <span class="hljs-keyword">var</span> MAX_DELAY = <span class="hljs-number">100</span>;
+
+  <span class="hljs-keyword">var</span> values;
+  beforeEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    values = [<span class="hljs-number">42</span>, <span class="hljs-string">'hi'</span>, <span class="hljs-literal">false</span>, {}, <span class="hljs-literal">undefined</span>, [] ];
+    jasmine.addMatchers(customMatchers);
+  });
+
+  xit(<span class="hljs-string">'es una función'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    expect( <span class="hljs-keyword">typeof</span> $<span class="hljs-built_in">Promise</span>.all ).toBe( <span class="hljs-string">'function'</span> );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>El <code>Promise.all</code> de ES6 acepta cualquier
+<a href="https://mzl.la/1SopN1G">iterable</a>, pero esto va mas alla del
+scope de Pledge. Nuestro <code>.all</code> solo necesita soportar arreglos.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'toma un solo argumento de un arreglo'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Pasando un arreglo dentro de <code>$Promise.all</code> causa ningún error.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callingAllWithArrays</span> (<span class="hljs-params"></span>) </span>{
+      $<span class="hljs-built_in">Promise</span>.all([]);
+      $<span class="hljs-built_in">Promise</span>.all(values);
+    }
+    expect( callingAllWithArrays ).not.toThrow();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Pasar un no-arreglo a <code>$Promise.all</code> arroja un <code>TypeError</code>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">const</span> nonArrayValues = [<span class="hljs-number">42</span>, <span class="hljs-string">'hi'</span>, <span class="hljs-literal">false</span>, {}, <span class="hljs-literal">undefined</span>, /wow/];
+    nonArrayValues.forEach(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callingAllWithValue</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> $<span class="hljs-built_in">Promise</span>.all(value); }
+      expect( callingAllWithValue ).toThrowError( <span class="hljs-built_in">TypeError</span> );
+    });
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>No parece tán dificil al principio.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'convierte un &lt;arreglo de valores&gt; a una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(values);
+    expect( promise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe(<span class="hljs-literal">true</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>La promesa debería completarse con los valores</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    expect( promise ).toFulfillWith( values, done );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Uh oh, se va volviendo un poco más difícil</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  xit(<span class="hljs-string">'convierte un &lt;arreglo de promesas&gt; en una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    <span class="hljs-keyword">var</span> promises = values.map(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> $<span class="hljs-built_in">Promise</span>.resolve(value));
+    <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(promises);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>La promesa debería completarse con valores (no promesas por valores).</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    expect( promise ).toFulfillWith( values, done );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Sin atajos; cada elemento individual puede ser un valor o una promesa por un valor.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'convierte un &lt;arreglo de valores y promesas&gt; a una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    <span class="hljs-keyword">var</span> valuesAndPromises = values.map(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.random() &lt; <span class="hljs-number">0.5</span> ? value : $<span class="hljs-built_in">Promise</span>.resolve(value);
+    });
+    <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(valuesAndPromises);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>la promesa debería completarse con valores (no una mezcla de promesas y valores).</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    expect( promise ).toFulfillWith( values, done );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Ayuda: da una promesa por un valor, resuelve luego de un set de random delays.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">slowPromise</span> (<span class="hljs-params">value, delay</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve</span>) </span>{
+      setTimeout(
+        <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> resolve(value),
+        delay || (<span class="hljs-built_in">Math</span>.random() * MAX_DELAY)
+      );
+    });
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Oops! No estabas chequeando sincrónicamente <code>._value</code>, no? Eso no
+va a funcionar si una promesa sigue pendiente. ¿Recuerdas cómo
+acceder al eventual valor de la promesa? Vas a necesitar alterar
+o aumentar tu enfoque aquí.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'convierte un &lt;arreglo de promesas async&gt; en una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    <span class="hljs-keyword">var</span> promises = values.map(<span class="hljs-function">(<span class="hljs-params">value, i</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> slowPromise(value, SMALL_DELAY * (i + <span class="hljs-number">1</span>));
+    });
+    <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(promises);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>la promesa debería completarse con valores…
+…una vez que esos valores existen</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    expect( promise ).toFulfillWith( values, done );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>No pushees valores simplemente en orden que van terminando.
+De alguna manera tenés que mantener rastro de que valores
+van donde en el arreglo final</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'convierte un &lt;arreglo de promesas async&gt; (completandose en orden random) en una &lt;promesa para un arreglo de valores&gt; (ordenadas por el index del arreglo original)'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    <span class="hljs-keyword">var</span> promises = values.map(slowPromise); <span class="hljs-comment">// delays random</span>
+    <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(promises);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>la promesa debería completarse con valores, y en el
+orden correcto también!</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    expect( promise ).toFulfillWith( values, done );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Tan cerca ahora! ¿Qué pasa si una de las promesas falla?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'rechaza con &lt;razon E&gt; cuando uno de las promesas ingresadas rechaza con &lt;razon E&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>la promesa que rechaza luego de un random delay</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> promiseThatRejects = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+    <span class="hljs-keyword">var</span> doomsday = <span class="hljs-built_in">Math</span>.random * MAX_DELAY;
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> promiseThatRejects._internalReject(<span class="hljs-string">'any Black Mirror episode'</span>), doomsday);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>un par de promesas que se van a completar en orden random</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> promises = values.map(slowPromise);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>mandamos nuestra promesa condenada en algún lugar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> randomIndex = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * promises.length);
+    promises.splice(randomIndex, <span class="hljs-number">0</span>, promiseThatRejects);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>espera por todo con $Promise.all</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(promises);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>la promesa debería ser rechazada</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    expect( promise ).toRejectWith( <span class="hljs-string">'any Black Mirror episode'</span>, done );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>This probably already passes, but let’s be sure. We’re strict that way.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'no es afectado por rechazos adicionales'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>las promesas que rechaza luego de un random delay</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> doomed = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+    <span class="hljs-keyword">var</span> reallyDoomed = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+    <span class="hljs-keyword">var</span> doomsday = <span class="hljs-built_in">Math</span>.random * MAX_DELAY;
+    <span class="hljs-keyword">var</span> postApocalypse = doomsday + SMALL_DELAY;
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> doomed._internalReject(<span class="hljs-string">'I am the first rejection'</span>), doomsday);
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> reallyDoomed._internalReject(<span class="hljs-string">'I am too late, ignore me'</span>), postApocalypse);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>un par de promesas que se completan en orden random</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> promises = values.map(slowPromise);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>mandamos nuestras promesas condenadas en algún lugar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> randomIndex1 = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * promises.length);
+    <span class="hljs-keyword">var</span> randomIndex2 = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * promises.length);
+    promises.splice(randomIndex1, <span class="hljs-number">0</span>, doomed);
+    promises.splice(randomIndex2, <span class="hljs-number">0</span>, reallyDoomed);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>espera por todo con $Promise.all</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(promises);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>la promesa debería ser rechazada con la primera razón.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    expect( promise ).toRejectWith( <span class="hljs-string">'I am the first rejection'</span>, done );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>Vamos! Como podemos ver, <code>Promise.all</code> hace bastante por nosotros.
+Basicamente, podemos dar <code>.all</code> un arreglo conteniendo cualquier
+mezcla de valores y promesas con tiempos aleatorios. En retorno,
+<code>.all</code> nos da una promesa para todos los valores eventuales,
+manteniendo el orden original del arreglo incluso si la promesa se
+completa en cualquier orden. Y si cualquiera de las promesas ingresadas
+falla, la promesa que retorna falla inmediatamente con la misma razón
+de rechazo.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>});
+
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>No te olvides de <code>git commit</code>!</p>
+
+            </div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

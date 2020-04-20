@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>pledge.spec.ch4.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="pledge.spec.ch1.html">
+                  pledge.spec.ch1.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch2.html">
+                  pledge.spec.ch2.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch3.html">
+                  pledge.spec.ch3.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch4.html">
+                  pledge.spec.ch4.js
+                </a>
+              
+                
+                <a class="source" href="pledge.spec.ch5.html">
+                  pledge.spec.ch5.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>pledge.spec.ch4.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
+describe(<span class="hljs-string">'Chapter 4: Promise Chaining y Transformación'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+<span class="hljs-comment">/*=======================================================
+
+
+                            d8888
+                           d8P888
+                          d8P 888
+                         d8P  888
+                        d88   888
+                        8888888888
+                              888
+                              888
+
+
+Capítulo 4: Las Promises pueden retornar valores y conectarse entre ellas
+---------------------------------------------------------*/</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Un aspecto crucial de las promises es que <code>.then</code> siempre
+retorna una nueva promesa. Cuando los valores son retornados
+por el handler de promise A, son exportados y representados
+por la promesa B retornada. Esto lleva a un comportamiento
+remarcadamente versatil: Elegir cuando atrapar los errores,
+conectando promesas juntas, fácilmente pasar alrededor valores
+de las promesas y actuar sobre ellos cuando sea conveniente…
+incluso retornar nuevos valores.
+Este capitulo puede ser dificultoso.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/*========================================================*/</span>
+
+<span class="hljs-comment">/* global $Promise customMatchers */</span>
+<span class="hljs-comment">/* eslint no-throw-literal: 0 */</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">noop</span> (<span class="hljs-params"></span>) </span>{}
+
+describe(<span class="hljs-string">'por una dada promiseA (pA)'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+  <span class="hljs-keyword">var</span> promiseA, thisReturnsHi, thisThrowsShade;
+  beforeEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    promiseA = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+    thisReturnsHi = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> <span class="hljs-string">'hi'</span>; };
+    thisThrowsShade = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">throw</span> <span class="hljs-string">'shade'</span>; };
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Nuestras promise padres deben mantener algún tipo de
+referencia a la promesa de abajo (downstreamPromise)
+en orden de controlar el chaining</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'`.then` agregá una nueva promesa a su handlerGroups'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    promiseA.then();
+    <span class="hljs-keyword">var</span> groups = promiseA._handlerGroups;
+    expect( groups[<span class="hljs-number">0</span>].downstreamPromise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe( <span class="hljs-literal">true</span> );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>cada handler group tiene su propio <code>downstreamPromise</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    promiseA.then();
+    expect( groups[<span class="hljs-number">1</span>].downstreamPromise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe( <span class="hljs-literal">true</span> );
+    expect( groups[<span class="hljs-number">1</span>].downstreamPromise ).not.toBe( groups[<span class="hljs-number">0</span>].downstreamPromise );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Pasar esto puede romper tu <code>.catch</code> del capítulo 3. Si eso pasase,
+vas a tener que ir para atras y arreglar <code>.catch</code>, tomando este
+spec en cuenta.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'`.then` devuelve ese downstreamPromise'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> promiseB = promiseA.then();
+    expect( promiseB ).toBe( promiseA._handlerGroups[<span class="hljs-number">0</span>].downstreamPromise );
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Esta sección esta detallada en la Promises Flowchart. Referíte al PDF.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  describe(<span class="hljs-string">'que devuelve promiseB (pB) via `.then`:'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+    <span class="hljs-keyword">var</span> FAST_TIMEOUT = <span class="hljs-number">10</span>;
+
+    <span class="hljs-comment">/* (En `utils/custom.matchers.js`, nos permite testear tu promise limpiamente.) */</span>
+    beforeEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      jasmine.addMatchers(customMatchers);
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Fulfillment baja al primer success handler disponible.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">"si pA es completado pero no tiene un success handler, pb es completado con el valor de pA"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseB = promiseA.then();
+      promiseA._internalResolve( <span class="hljs-number">9001</span> );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>No setea un estado manualmente; un resolver debería ser llamado.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      expect( promiseB._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
+      expect( promiseB._value ).toBe( <span class="hljs-number">9001</span> );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Lo de arriba es una pista; de ahora en adelante vamos a usar
+este matcher personalizado.
+Ignorá el <code>done</code>, necesario porque Jasmine no soporta async matchers.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      expect( promiseB ).toFulfillWith( <span class="hljs-number">9001</span>, done );
+    }, FAST_TIMEOUT);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Rejection baja al primer error handler disponible.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">"Si pA es rechazado pero no tiene un error handler, pB es rechazado con la razón de pA"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseB = promiseA.then();
+      promiseA._internalReject( <span class="hljs-string">'darn'</span> );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>No setea el estado manualmente; un rejector debería ser llamado</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      expect( promiseB._state ).toBe( <span class="hljs-string">'rejected'</span> );
+      expect( promiseB._value ).toBe( <span class="hljs-string">'darn'</span> );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Lo de arriba es una pista; de ahora en adelante vamos a usar
+este matcher personalizado.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      expect( promiseB ).toRejectWith( <span class="hljs-string">'darn'</span>, done );
+    }, FAST_TIMEOUT);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Esto es para valores normales (sincrónico / non-promise) retornados</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">"si el success handler de pA retorna un valor `x`m pB es completado con `x`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseB = promiseA.then( thisReturnsHi );
+      promiseA._internalResolve();
+      expect( promiseB ).toFulfillWith( <span class="hljs-string">'hi'</span>, done );
+    }, FAST_TIMEOUT);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Esto es para valores normales (sincrónico / non-promise) retornados</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">"si el error handler de pA retorna un valor `x`, pB es completado con `x`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>¿Por qué completado? Esto es similar a <code>try</code>-<code>catch</code>. Si la
+promiseA es rechazada (equivalente a un <code>try</code> fallido), pasamos
+la razón al error handler de promiseA (equivalente a <code>catch</code>).
+Ahora hemos manejado el error correctamente, entonces promiseB
+debería representar el error handler retornando algo útil, no un
+nuevo error. promiseB solo rechazaría si el error handler por si
+mismo falla de alguna forma (el cual ya fue abordado en un test previo).</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+      <span class="hljs-keyword">var</span> promiseB = promiseA.catch( thisReturnsHi );
+      promiseA._internalReject();
+      expect( promiseB ).toFulfillWith( <span class="hljs-string">'hi'</span>, done );
+    }, FAST_TIMEOUT);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Excepciones causan que la promesa retornado sea rechazada con un error
+Pista: vas a necesitar usar <code>try</code> &amp; <code>catch</code> para hacer que esto funcione</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">"si el success handler de pA arroja una razon `e`, pB es rechazada con `e`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseB = promiseA.then( thisThrowsShade );
+      promiseA._internalResolve();
+      expect( promiseB ).toRejectWith( <span class="hljs-string">'shade'</span>, done );
+    }, FAST_TIMEOUT);
+
+    xit(<span class="hljs-string">"si el error handler de pA arroja una razon `e`, pB es rechazada con `e`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseB = promiseA.catch( thisThrowsShade );
+      promiseA._internalReject();
+      expect( promiseB ).toRejectWith( <span class="hljs-string">'shade'</span>, done );
+    }, FAST_TIMEOUT);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>¿Qué pasa si promiseA retorna una promesaZ? Podrías manejar pZ
+como un valor normal, pero luego vas a tener que empezar escribiendo
+<code>.then</code> dentro de <code>.then</code>. En cambio, queremos hacer promiseB ser pZ
+copiando el comportamiento de pZ - a.k.a asimilación. EStos cuatro
+tests pueden causar dolores de cabeza</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+    xit(<span class="hljs-string">"si el success handler de pA retorna pZ que se completa, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseZ = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+      <span class="hljs-keyword">var</span> promiseB = promiseA.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-keyword">return</span> promiseZ;
+      });
+      promiseA._internalResolve();
+      promiseZ._internalResolve( <span class="hljs-string">'testing'</span> );
+      expect( promiseB ).toFulfillWith( <span class="hljs-string">'testing'</span>, done );
+    }, FAST_TIMEOUT);
+
+    xit(<span class="hljs-string">"si el error handler de pA retorna pZ la cual se completa, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseZ = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+      <span class="hljs-keyword">var</span> promiseB = promiseA.catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-keyword">return</span> promiseZ;
+      });
+      promiseA._internalReject();
+      promiseZ._internalResolve( <span class="hljs-string">'testing'</span> );
+      expect( promiseB ).toFulfillWith( <span class="hljs-string">'testing'</span>, done );
+    }, FAST_TIMEOUT);
+
+    xit(<span class="hljs-string">"si el success handler de pA retorna pZ que se rechaza, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseZ = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+      <span class="hljs-keyword">var</span> promiseB = promiseA.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-keyword">return</span> promiseZ;
+      });
+      promiseA._internalResolve();
+      promiseZ._internalReject( <span class="hljs-string">'testing'</span> );
+      expect( promiseB ).toRejectWith( <span class="hljs-string">'testing'</span>, done );
+    }, FAST_TIMEOUT);
+
+    xit(<span class="hljs-string">"si el error handler de pA retorna pZ que se rechaza, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+      <span class="hljs-keyword">var</span> promiseZ = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
+      <span class="hljs-keyword">var</span> promiseB = promiseA.catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-keyword">return</span> promiseZ;
+      });
+      promiseA._internalReject();
+      promiseZ._internalReject( <span class="hljs-string">'testing'</span> );
+      expect( promiseB ).toRejectWith( <span class="hljs-string">'testing'</span>, done );
+    }, FAST_TIMEOUT);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Para realmente testear de forma apropiada asimilación
+requeriría muchos mas specs. Pero no vamos a ser tan estrictos.</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Todo los specs de arriba colocan su promesa LUEGO de retornar
+la nueva promesa. Pero por supuesto podés conectar en promesas
+ya colocadas! Tu solución puede ya estar pasando esto.
+Pero quizás no…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    xit(<span class="hljs-string">'igual conecta correctamente si la promesa ya esta colocada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>utility / helper functions</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>, shouldFulfill, shouldReject;
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">countPassed</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">if</span> (++count === <span class="hljs-number">10</span>) done(); }
+      <span class="hljs-built_in">Object</span>.assign(countPassed, done);
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">thisReturnsFulfilledPromise</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> resolve(<span class="hljs-string">'yea'</span>));
+      }
+      <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">thisReturnsRejectedPromise</span> (<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> reject(<span class="hljs-string">'nay'</span>));
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>promiseA start points</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> fulfilledPromise = thisReturnsFulfilledPromise();
+      <span class="hljs-keyword">var</span> rejectedPromise = thisReturnsRejectedPromise();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>bubbling works</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      shouldFulfill = fulfilledPromise.then();
+      expect( shouldFulfill ).toFulfillWith( <span class="hljs-string">'yea'</span>, countPassed );
+      shouldReject = rejectedPromise.then();
+      expect( shouldReject ).toRejectWith( <span class="hljs-string">'nay'</span>, countPassed );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>returning values works</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      shouldFulfill = fulfilledPromise.then( thisReturnsHi );
+      expect( shouldFulfill ).toFulfillWith( <span class="hljs-string">'hi'</span>, countPassed );
+      shouldFulfill = rejectedPromise.catch( thisReturnsHi );
+      expect( shouldFulfill ).toFulfillWith( <span class="hljs-string">'hi'</span>, countPassed );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>throwing values works</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      shouldReject = fulfilledPromise.then( thisThrowsShade );
+      expect( shouldReject ).toRejectWith( <span class="hljs-string">'shade'</span>, countPassed );
+      shouldReject = rejectedPromise.catch( thisThrowsShade );
+      expect( shouldReject ).toRejectWith( <span class="hljs-string">'shade'</span>, countPassed );</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>returning promises works</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      shouldFulfill = fulfilledPromise.then( thisReturnsFulfilledPromise );
+      expect( shouldFulfill ).toFulfillWith( <span class="hljs-string">'yea'</span>, countPassed );
+      shouldReject = fulfilledPromise.then( thisReturnsRejectedPromise );
+      expect( shouldReject ).toRejectWith( <span class="hljs-string">'nay'</span>, countPassed );
+      shouldFulfill = rejectedPromise.catch( thisReturnsFulfilledPromise );
+      expect( shouldFulfill ).toFulfillWith( <span class="hljs-string">'yea'</span>, countPassed );
+      shouldReject = rejectedPromise.catch( thisReturnsRejectedPromise );
+      expect( shouldReject ).toRejectWith( <span class="hljs-string">'nay'</span>, countPassed );
+    });
+
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Otra demostración. Esto debería funcionar si los previos specs pasaron.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  xit(<span class="hljs-string">'`.then` puede ser encadenado muchas veces'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">var</span> add1 = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">num</span>) </span>{ <span class="hljs-keyword">return</span> ++num; };
+    <span class="hljs-keyword">var</span> test = <span class="hljs-number">0</span>;
+    promiseA
+    .then(add1)
+    .then(add1)
+    .then()
+    .then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>{
+      test = data;
+    });
+    promiseA._internalResolve( <span class="hljs-number">0</span> );
+    expect( test ).toBe( <span class="hljs-number">2</span> );
+  });
+
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Wow! Si llegaste tan lejos, felicitaciones. Hemos omitido ciertos
+detalles (por ejemplo: los handlers debén siempre ser llamados en
+un verdadero async wrapper), pero haz construido una libreria de
+promesas con la mayoría del comportamiento standard. En el siguiente
+capítulo (opcional, pero recomendado), va a añadir algunos métodos
+comunes de la libreria que hacen trabajar con promesas más fácil
+y prolijo.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>No te olvides de <code>git commit</code>!</p>
+
+            </div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
