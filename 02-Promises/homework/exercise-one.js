@@ -39,7 +39,7 @@ args.forEach(function(arg){
 function problemA () {
   /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
    *
-   * A. logue el poema uno stanza uno (ignorá errores)
+   * A. loguea el poema uno stanza uno (ignorá errores)
    *
    */
 

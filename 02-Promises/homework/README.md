@@ -1,10 +1,8 @@
-# Practical Promises
+# Henry
 
 ## Introducción
 
 ### Setup
-
-Clona y forkeá este repo y seguí las instrucciones.
 
 Vas a examinar un poco de código asincrónico usando vanilla callbacks, e intentando escribir código que haga acciones idénticas usando promises.
 
@@ -13,7 +11,7 @@ Vas a examinar un poco de código asincrónico usando vanilla callbacks, e inten
 
 - Porque el código asincrónico es no-determinístico (i.e. los resultados no pueden ser determinados antes de tiempo), asegurate de testear el output de tus soluciones corriéndolos múltiples veces, para ver las posibilidades.
 - Adicionalmente, asegurate de comentar las soluciones que implementan vanilla callbacks antes de testear tus versiones *promisificadas*; de otra manera, las soluciones con callback pasaran los tests por vos!
-- Y por último, tomate tu tiempo de leer las primeras lineas de ambos ejercicios; en particular, toma nota de `promisifiedReadFile` como también las funciones `blue` y `magenta`. Vas a definitivamente querer usar la primera función en tus soluciones, pero mirá si también puedes incorporar las otras dos.
+- Y por último, tomate tu tiempo de leer las primeras lineas de ambos ejercicios; en particular, toma nota de `promisifiedReadFile` como también las funciones `blue` y `magenta`. Vas a querer usar la primera función en tus soluciones, pero mirá si también puedes incorporar las otras dos.
 
 
 ## Ejercicios
