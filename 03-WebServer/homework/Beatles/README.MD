@@ -1,10 +1,12 @@
 # Beatles Page
 
+Vamos a hacer una página usando los templates HTML que vimos en clase.
+
 ## Requisitos Básicos
 
-1. Con node crea un index en "/" donde le demos la bienvendia
+### API
 
-2. Utiliza este arreglo con los integrantes de los Beatles:
+1. Utiliza este arreglo con los integrantes de los Beatles:
 
 ```javascript
 var beatles=[{
@@ -30,27 +32,23 @@ var beatles=[{
 ]
 ```
 
-3. Crea la ruta "/api" que muestre el arreglo completo
+2. Crea la ruta "/api" que muestre el arreglo completo
 
-4. Ahora en la ruta "/api/John%20Lennon" deberiamos ver solo el objeto de John
+3. Ahora en la ruta "/api/John%20Lennon" deberiamos ver solo el objeto de John
 
-5. Haz lo mismo con los otros beatles. Podemos hacer esto sin repetirnos en una misma ruta?
+4. Haz lo mismo con los otros beatles. Podemos hacer esto sin repetirnos en una misma ruta?
 
-6. Si el usuario no entra un Beatle valido tiene que darle un error diciendo que la página no se encontro
+5. Si el usuario no entra un Beatle valido tiene que darle un error diciendo que la página no se encontro
 
-6. Ahora crea un nuevo template en el cual ingresaremos un profile page de cada beatle, el titulo de la pagina y un h1 tiene que decir el nombre, un parrafo con la fecha de nacimiento y una imagen con la profilePic
+### Html y templates
 
-7. Crea una ruta en la cual si ponemos el nombre del Beatle nos muestre su profil page ej. "/Paul%20McCartney".  NO PISES TU RUTA DE API NI DE ERROR
+1. Crea un `index.html` (usá bootstrap). Que tenga un header básico, y un jumbotron con un mensaje de bienvenida.
+En tu server, devolvé ese HTML cuando los usuarios vayan a la ruta `/`.
 
-## Advanced Mode
+2. Ahora crea un nuevo template en el cual ingresaremos un profile page de cada beatle, el titulo de la pagina y un h1 tiene que decir el nombre, un parrafo con la fecha de nacimiento y una imagen con la profilePic.
 
-1. En tu index pongamos un form el cual podamos buscar un beatle, dale al input un _name_ y recuerda poner un button, como es el request en el url?
+> Podés usar el string replace como vimos en clases, en la carpeta `/demo` vas a encontrar los ejemplos.
 
-2. Crea una nueva ruta basado en esto para q el usuario pueda buscar un beatle y que carge su profile page
+3. Crea una ruta en la cual si ponemos el nombre del Beatle nos muestre su profil page ej. "/Paul%20McCartney".  NO PISES TU RUTA DE API
 
-3. Terminaste? Fijate tu código esta muy desordenado? Te repetiste? Intenta refactorear tu codigo para que quede ordenado, intenta poner las tareas en funciones
-
-
-## Ultimate Mode
-
-1. Descarga las imagenes en una carpeta y cargarlas desde tu servidor
+4. Terminaste? Fijate tu código esta muy desordenado? Te repetiste? Intenta refactorear tu codigo para que quede ordenado, intenta poner las tareas en funciones
