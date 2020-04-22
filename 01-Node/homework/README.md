@@ -123,6 +123,11 @@ Para que funcione debemos agregar el siguiente script al `package.json` (para in
     ...
 ```
 
+Para ejecutar el `bash.js` podes escribir el comando:
+
+```bash
+npm start
+```
 
 ## Separando en módulos
 
@@ -149,7 +154,7 @@ const commands = require('./commands/index.js');
 
 const cmd = 'pwd';
 
-commands[cmd]() => la función dentro de la propiedad pwd
+commands[cmd]() // la función dentro de la propiedad pwd
 
 ```
 
@@ -172,7 +177,7 @@ No te olvides: fs no es global (como process) pero es un módulo. Esto significa
 
 `var fs = require('fs');`
 
-Usá fs.readdir para obtener los archivos en el directorio:
+Usá `fs.readdir` para obtener los archivos en el directorio:
 
 ```js
 // commands/index.js

@@ -6,11 +6,10 @@
 
 - [01-NodeJs](./01-Node)
 - [02-Promises](./02-Promises)
-- [03-REST](./03-REST)
-- [04-Web Server](./03-WebServer)
-- [05-Advance Promises](./05-AdvancePromises)
-- [06-Express](./04-Express)
-- [07-Testing](./05-Testing)
+- [03-Web Server](./03-WebServer)
+- [04-Advance Promises](./04-AdvancePromises)
+- [05-Express](./05-Express)
+- [06-Testing](./06-Testing)
 - Checkpoint
 
 >> El **Checkpoint** consiste en un ejercicio que integra todo este contenido, va a ser individual y van a tener un día completo para terminarlo. Para continuar con la carrera es necesario aprobar este Checkpoint.
