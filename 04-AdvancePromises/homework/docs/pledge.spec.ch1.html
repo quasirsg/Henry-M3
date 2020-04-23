@@ -190,7 +190,7 @@ el “executor”. Vamos a volver a esta función mas adelante.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'puede ser llamado con una argumento de función (el "executor"), devolviendo una nueva instancia de promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'puede ser llamado con una argumento de función (el "executor"), devolviendo una nueva instancia de promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> executor = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{};
     <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(executor);
     expect( promise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe( <span class="hljs-literal">true</span> );
@@ -210,7 +210,7 @@ el “executor”. Vamos a volver a esta función mas adelante.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'arroja un error descriptivo si es llamado sin función como argumento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'arroja un error descriptivo si es llamado sin función como argumento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> nonFunctions = [<span class="hljs-literal">null</span>, <span class="hljs-string">'bonjour'</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-number">452</span>, {}, <span class="hljs-literal">false</span>];
     nonFunctions.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nonFunction</span>) </span>{
       expect(callingNewPromiseWith(nonFunction)).toThrowError(
@@ -227,7 +227,7 @@ el “executor”. Vamos a volver a esta función mas adelante.</p>
 
 });
 
-describe(<span class="hljs-string">'Una instancia de promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+describe(<span class="hljs-string">'Una instancia de promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
 
   <span class="hljs-keyword">var</span> promise;
   beforeEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
@@ -266,7 +266,7 @@ es una señal de esto.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'comienza con un estado interno "pending"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'comienza con un estado interno "pending"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     expect( promise._state ).toBe( <span class="hljs-string">'pending'</span> );
   });</pre></div></div>
             
@@ -286,11 +286,11 @@ ser complicado.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'tiene un método de instancia `._internalResolve` '</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  it(<span class="hljs-string">'tiene un método de instancia `._internalResolve` '</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
     expect( <span class="hljs-keyword">typeof</span> promise._internalResolve ).toBe( <span class="hljs-string">'function'</span> );
   });
 
-  xit(<span class="hljs-string">'tiene un métido de instancia `._internalReject`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  it(<span class="hljs-string">'tiene un métido de instancia `._internalReject`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
     expect( <span class="hljs-keyword">typeof</span> promise._internalReject ).toBe( <span class="hljs-string">'function'</span> );
     expect( promise._internalReject ).not.toBe( promise._internalResolve );
   });</pre></div></div>
@@ -311,7 +311,7 @@ ser complicado.</p>
             <div class="content"><div class='highlight'><pre>
   describe(<span class="hljs-string">'resolviendo '</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
 
-    xit(<span class="hljs-string">'cambia el estado de la promesa a "fulfilled"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+    it(<span class="hljs-string">'cambia el estado de la promesa a "fulfilled"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
             
         </li>
         
@@ -336,7 +336,7 @@ tenes que saber por qué aún.</p>
       expect( promise._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
     });
 
-    xit(<span class="hljs-string">'puede enviar data a la promesa para almacenamiento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'puede enviar data a la promesa para almacenamiento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       <span class="hljs-keyword">var</span> someData = { <span class="hljs-attr">name</span>: <span class="hljs-string">'Harry Potter'</span> };
       promise._internalResolve( someData );
       expect( promise._value ).toBe( someData );
@@ -356,7 +356,7 @@ tenes que saber por qué aún.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">'no afecta una promesa ya completada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'no afecta una promesa ya completada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       <span class="hljs-keyword">var</span> data1 = { <span class="hljs-attr">name</span>: <span class="hljs-string">'Harry Potter'</span> };
       <span class="hljs-keyword">var</span> data2 = { <span class="hljs-attr">name</span>: <span class="hljs-string">'Gandalf'</span> };
       promise._internalResolve( data1 );
@@ -364,14 +364,13 @@ tenes que saber por qué aún.</p>
       expect( promise._value ).toBe( data1 );
     });
 
-    xit(<span class="hljs-string">'funciona hasta con valores falsos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'funciona hasta con valores falsos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       <span class="hljs-keyword">var</span> data1; <span class="hljs-comment">// undefined; podría funcionar también con null, 0, false, etc.</span>
       <span class="hljs-keyword">var</span> data2 = <span class="hljs-string">'oops!'</span>;
       promise._internalResolve( data1 );
       promise._internalResolve( data2 );
       expect( promise._value ).toBe( data1 );
     });
-
   });
 
   describe(<span class="hljs-string">'rechazando '</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
@@ -391,18 +390,18 @@ requerir mucho mas código</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">'cambia el estado de la promesa a "rejected"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'cambia el estado de la promesa a "rejected"'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promise._internalReject();
       expect( promise._state ).toBe( <span class="hljs-string">'rejected'</span> );
     });
 
-    xit(<span class="hljs-string">'puede enviar una razón a la promesa para almacenamiento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'puede enviar una razón a la promesa para almacenamiento'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       <span class="hljs-keyword">var</span> myReason = { <span class="hljs-attr">error</span>: <span class="hljs-string">'bad request'</span> };
       promise._internalReject( myReason );
       expect( promise._value ).toBe( myReason );
     });
 
-    xit(<span class="hljs-string">'no afecta un promesa ya rechazada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'no afecta un promesa ya rechazada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       <span class="hljs-keyword">var</span> reason1 = { <span class="hljs-attr">error</span>: <span class="hljs-string">'bad request'</span> };
       <span class="hljs-keyword">var</span> reason2 = { <span class="hljs-attr">error</span>: <span class="hljs-string">'timed out'</span> };
       promise._internalReject( reason1 );
@@ -410,7 +409,7 @@ requerir mucho mas código</p>
       expect( promise._value ).toBe( reason1 );
     });
 
-    xit(<span class="hljs-string">'funciona hasta con valores falsos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'funciona hasta con valores falsos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       <span class="hljs-keyword">var</span> reason1;
       <span class="hljs-keyword">var</span> reason2 = <span class="hljs-string">'oops!'</span>;
       promise._internalReject( reason1 );
@@ -437,14 +436,14 @@ completada /rechazada”, estos dos specs deberían ya estar pasando.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">'`reject` no sobreescribe fullfilled'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'`reject` no sobreescribe fullfilled'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promise._internalResolve( <span class="hljs-string">'Dumbledore'</span> );
       promise._internalReject( <span class="hljs-number">404</span> );
       expect( promise._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
       expect( promise._value ).toBe( <span class="hljs-string">'Dumbledore'</span> );
     });
 
-    xit(<span class="hljs-string">'`resolve` no sobreescribe rejected'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'`resolve` no sobreescribe rejected'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promise._internalReject( <span class="hljs-number">404</span> );
       promise._internalResolve( <span class="hljs-string">'Dumbledore'</span> );
       expect( promise._state ).toBe( <span class="hljs-string">'rejected'</span> );
@@ -501,13 +500,13 @@ describe(<span class="hljs-string">'La función executor'</span>, <span class="h
     executor = jasmine.createSpy();
   });
 
-  xit(<span class="hljs-string">'es llamada cuando hacemos una nueva $Promise'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'es llamada cuando hacemos una nueva $Promise'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     expect( executor ).not.toHaveBeenCalled();
     <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(executor); <span class="hljs-comment">// eslint-disable-line no-unused-vars</span>
     expect( executor ).toHaveBeenCalled();
   });
 
-  xit(<span class="hljs-string">'es llamado con dos funciones distintas (funception!), resolve y reject'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'es llamado con dos funciones distintas (funception!), resolve y reject'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(executor); <span class="hljs-comment">// eslint-disable-line no-unused-vars</span>
     <span class="hljs-keyword">var</span> argsPassedIntoExecutor = executor.calls.argsFor(<span class="hljs-number">0</span>);
 
@@ -537,7 +536,7 @@ puedes tener un problema con el <em>contexto</em> (el keyword <code>this</code>)
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    xit(<span class="hljs-string">'resuelve la promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+            <div class="content"><div class='highlight'><pre>    it(<span class="hljs-string">'resuelve la promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve</span>) </span>{
         resolve(<span class="hljs-string">'WinGARdium leviOHsa.'</span>);
       });
@@ -562,7 +561,7 @@ de todo, trabajaste muy duro para asegurarte <code>._internalResolve</code> y
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">'es indistinguible en comportamiento a `._internalResolve`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'es indistinguible en comportamiento a `._internalResolve`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">var</span> resolver;
       <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve</span>) </span>{
         resolve(<span class="hljs-string">'Use the promise machinery, Luke.'</span>);
@@ -621,7 +620,7 @@ de todo, trabajaste muy duro para asegurarte <code>._internalResolve</code> y
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">'rechaza la promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'rechaza la promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{
         reject(<span class="hljs-string">'Stupefy!'</span>);
       });
@@ -629,7 +628,7 @@ de todo, trabajaste muy duro para asegurarte <code>._internalResolve</code> y
       expect( promise._value ).toBe( <span class="hljs-string">'Stupefy!'</span> );
     });
 
-    xit(<span class="hljs-string">'es indistinguible en comportamiento a `._internalReject`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    it(<span class="hljs-string">'es indistinguible en comportamiento a `._internalReject`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">var</span> rejector;
       <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{
         reject(<span class="hljs-string">'You must unlearn what you have learned.'</span>);
@@ -687,10 +686,10 @@ Seguí la lógica:</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'por lo tanto permite al *creator* de una nueva promes controlar su destino, incluso asincrónicamente!'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+  it(<span class="hljs-string">'por lo tanto permite al *creator* de una nueva promesa controlar su destino, incluso asincrónicamente!'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
 
     <span class="hljs-keyword">var</span> promise3 = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve</span>) </span>{
-      setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">runsInTheFuture</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">function runsInTheFuture (</span>) {
         resolve(<span class="hljs-string">'Wow, the future is so cool.'</span>);
       }, <span class="hljs-number">50</span>);
     });
@@ -698,7 +697,7 @@ Seguí la lógica:</p>
     expect( promise3._state ).toBe( <span class="hljs-string">'pending'</span> );
     expect( promise3._value ).toBe( <span class="hljs-literal">undefined</span> );
 
-    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">runsInTheFarFuture</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">function runsInTheFarFuture (</span>) {
       expect( promise3._state ).toBe( <span class="hljs-string">'fulfilled'</span> );
       expect( promise3._value ).toBe( <span class="hljs-string">'Wow, the future is so cool.'</span> );
       done();

@@ -148,13 +148,13 @@ de promises).</p>
             <div class="content"><div class='highlight'><pre>
 describe(<span class="hljs-string">'El método estático `$Promise.resolve`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
 
-  xit(<span class="hljs-string">'es una función, y no una que ya hemos escrito'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'es una función, y no una que ya hemos escrito'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     expect( <span class="hljs-keyword">typeof</span> $<span class="hljs-built_in">Promise</span>.resolve ).toBe( <span class="hljs-string">'function'</span> );
     <span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
     expect( $<span class="hljs-built_in">Promise</span>.resolve ).not.toBe( promise._internalResolve );
   });
 
-  xit(<span class="hljs-string">'toma un &lt;valor plano A&gt; y devuelve una &lt;promesa para A&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'toma un &lt;valor plano A&gt; y devuelve una &lt;promesa para A&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     [<span class="hljs-number">42</span>, <span class="hljs-string">'hi'</span>, {}, <span class="hljs-literal">undefined</span>, /cool/, <span class="hljs-literal">false</span>].forEach(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {
       <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.resolve(value);
       expect( promise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe( <span class="hljs-literal">true</span> );</pre></div></div>
@@ -191,7 +191,7 @@ describe(<span class="hljs-string">'El método estático `$Promise.resolve`'</sp
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'toma una &lt;promesa para A&gt; y devuelve la misma &lt;promesa para A&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'toma una &lt;promesa para A&gt; y devuelve la misma &lt;promesa para A&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> firstPromise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
     <span class="hljs-keyword">var</span> secondPromise = $<span class="hljs-built_in">Promise</span>.resolve(firstPromise);
     expect( secondPromise ).toBe( firstPromise );
@@ -228,7 +228,7 @@ Lee a través de las assertions y tratá de entender que demuestran.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'demuestra porque "resolved" y "fulfilled" no son sinónimos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'demuestra porque "resolved" y "fulfilled" no son sinónimos'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> rejectedPromise = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>{
       reject();
     });</pre></div></div>
@@ -297,7 +297,7 @@ describe(<span class="hljs-string">'El método estático `$Promise.all`'</span>,
     jasmine.addMatchers(customMatchers);
   });
 
-  xit(<span class="hljs-string">'es una función'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'es una función'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     expect( <span class="hljs-keyword">typeof</span> $<span class="hljs-built_in">Promise</span>.all ).toBe( <span class="hljs-string">'function'</span> );
   });</pre></div></div>
             
@@ -317,7 +317,7 @@ scope de Pledge. Nuestro <code>.all</code> solo necesita soportar arreglos.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'toma un solo argumento de un arreglo'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
+  it(<span class="hljs-string">'toma un solo argumento de un arreglo'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{</pre></div></div>
             
         </li>
         
@@ -372,7 +372,7 @@ scope de Pledge. Nuestro <code>.all</code> solo necesita soportar arreglos.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'convierte un &lt;arreglo de valores&gt; a una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+  it(<span class="hljs-string">'convierte un &lt;arreglo de valores&gt; a una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
     <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(values);
     expect( promise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe(<span class="hljs-literal">true</span>);</pre></div></div>
             
@@ -405,7 +405,7 @@ scope de Pledge. Nuestro <code>.all</code> solo necesita soportar arreglos.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  xit(<span class="hljs-string">'convierte un &lt;arreglo de promesas&gt; en una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+            <div class="content"><div class='highlight'><pre>  it(<span class="hljs-string">'convierte un &lt;arreglo de promesas&gt; en una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
     <span class="hljs-keyword">var</span> promises = values.map(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> $<span class="hljs-built_in">Promise</span>.resolve(value));
     <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(promises);</pre></div></div>
             
@@ -439,7 +439,7 @@ scope de Pledge. Nuestro <code>.all</code> solo necesita soportar arreglos.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'convierte un &lt;arreglo de valores y promesas&gt; a una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+  it(<span class="hljs-string">'convierte un &lt;arreglo de valores y promesas&gt; a una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
     <span class="hljs-keyword">var</span> valuesAndPromises = values.map(<span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> {
       <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.random() &lt; <span class="hljs-number">0.5</span> ? value : $<span class="hljs-built_in">Promise</span>.resolve(value);
     });
@@ -477,9 +477,9 @@ scope de Pledge. Nuestro <code>.all</code> solo necesita soportar arreglos.</p>
             <div class="content"><div class='highlight'><pre>
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">slowPromise</span> (<span class="hljs-params">value, delay</span>) </span>{
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve</span>) </span>{
-      setTimeout(
-        <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> resolve(value),
-        delay || (<span class="hljs-built_in">Math</span>.random() * MAX_DELAY)
+      <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">
+        (</span>) =&gt; <span class="hljs-title">resolve</span>(<span class="hljs-params">value</span>),
+        <span class="hljs-title">delay</span> || (<span class="hljs-params">Math.random(</span>) * <span class="hljs-title">MAX_DELAY</span>)
       );
     });
   }</pre></div></div>
@@ -501,7 +501,7 @@ o aumentar tu enfoque aquí.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'convierte un &lt;arreglo de promesas async&gt; en una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+  it(<span class="hljs-string">'convierte un &lt;arreglo de promesas async&gt; en una &lt;promesa para un arreglo de valores&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
     <span class="hljs-keyword">var</span> promises = values.map(<span class="hljs-function">(<span class="hljs-params">value, i</span>) =&gt;</span> {
       <span class="hljs-keyword">return</span> slowPromise(value, SMALL_DELAY * (i + <span class="hljs-number">1</span>));
     });
@@ -540,7 +540,7 @@ van donde en el arreglo final</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'convierte un &lt;arreglo de promesas async&gt; (completandose en orden random) en una &lt;promesa para un arreglo de valores&gt; (ordenadas por el index del arreglo original)'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+  it(<span class="hljs-string">'convierte un &lt;arreglo de promesas async&gt; (completandose en orden random) en una &lt;promesa para un arreglo de valores&gt; (ordenadas por el index del arreglo original)'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
     <span class="hljs-keyword">var</span> promises = values.map(slowPromise); <span class="hljs-comment">// delays random</span>
     <span class="hljs-keyword">var</span> promise = $<span class="hljs-built_in">Promise</span>.all(promises);</pre></div></div>
             
@@ -575,7 +575,7 @@ orden correcto también!</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'rechaza con &lt;razon E&gt; cuando uno de las promesas ingresadas rechaza con &lt;razon E&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
+  it(<span class="hljs-string">'rechaza con &lt;razon E&gt; cuando uno de las promesas ingresadas rechaza con &lt;razon E&gt;'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -592,7 +592,7 @@ orden correcto también!</p>
             
             <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> promiseThatRejects = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
     <span class="hljs-keyword">var</span> doomsday = <span class="hljs-built_in">Math</span>.random * MAX_DELAY;
-    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> promiseThatRejects._internalReject(<span class="hljs-string">'any Black Mirror episode'</span>), doomsday);</pre></div></div>
+    <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">(</span>) =&gt; <span class="hljs-title">promiseThatRejects</span>.<span class="hljs-title">_internalReject</span>(<span class="hljs-params"><span class="hljs-string">'any Black Mirror episode'</span></span>), <span class="hljs-title">doomsday</span>);</pre></div></div>
             
         </li>
         
@@ -670,7 +670,7 @@ orden correcto también!</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'no es afectado por rechazos adicionales'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
+  it(<span class="hljs-string">'no es afectado por rechazos adicionales'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -689,8 +689,8 @@ orden correcto también!</p>
     <span class="hljs-keyword">var</span> reallyDoomed = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
     <span class="hljs-keyword">var</span> doomsday = <span class="hljs-built_in">Math</span>.random * MAX_DELAY;
     <span class="hljs-keyword">var</span> postApocalypse = doomsday + SMALL_DELAY;
-    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> doomed._internalReject(<span class="hljs-string">'I am the first rejection'</span>), doomsday);
-    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> reallyDoomed._internalReject(<span class="hljs-string">'I am too late, ignore me'</span>), postApocalypse);</pre></div></div>
+    <span class="hljs-keyword">set</span><span class="hljs-title">Timeout</span>(<span class="hljs-params">(</span>) =&gt; <span class="hljs-title">doomed</span>.<span class="hljs-title">_internalReject</span>(<span class="hljs-params"><span class="hljs-string">'I am the first rejection'</span></span>), <span class="hljs-title">doomsday</span>);
+    <span class="hljs-title">setTimeout</span>(<span class="hljs-params">(</span>) =&gt; <span class="hljs-title">reallyDoomed</span>.<span class="hljs-title">_internalReject</span>(<span class="hljs-params"><span class="hljs-string">'I am too late, ignore me'</span></span>), <span class="hljs-title">postApocalypse</span>);</pre></div></div>
             
         </li>
         

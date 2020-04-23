@@ -135,7 +135,7 @@ si y cuando la promesa se completa o rechaza.</p>
     e2 = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"><span class="hljs-regexp">/* reason */</span></span>) </span>{ <span class="hljs-comment">/* handle reason */</span> };
   });
 
-  xit(<span class="hljs-string">'agrega grupos de handlers (funciones callbacks) a la promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'agrega grupos de handlers (funciones callbacks) a la promesa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     promise.then( s1, e1 );
     expect( promise._handlerGroups[<span class="hljs-number">0</span>].successCb ).toBe( s1 );
     expect( promise._handlerGroups[<span class="hljs-number">0</span>].errorCb   ).toBe( e1 );
@@ -157,7 +157,7 @@ chaining en el Cap. 4.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'puede ser llamado multiples veces para añadir mas handlers'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'puede ser llamado multiples veces para añadir mas handlers'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     promise.then( s1, e1 );
     expect( promise._handlerGroups[<span class="hljs-number">0</span>].successCb ).toBe( s1 );
     expect( promise._handlerGroups[<span class="hljs-number">0</span>].errorCb   ).toBe( e1 );
@@ -166,7 +166,7 @@ chaining en el Cap. 4.</p>
     expect( promise._handlerGroups[<span class="hljs-number">1</span>].errorCb   ).toBe( e2 );
   });
 
-  xit(<span class="hljs-string">'agrega un valor falso en lugar de callbacks que no son funciones en el success o error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'agrega un valor falso en lugar de callbacks que no son funciones en el success o error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     promise.then( <span class="hljs-string">'a string'</span>, {} );
     expect( promise._handlerGroups[<span class="hljs-number">0</span>].successCb ).toBeFalsy();
     expect( promise._handlerGroups[<span class="hljs-number">0</span>].errorCb   ).toBeFalsy();
@@ -208,7 +208,7 @@ describe(<span class="hljs-string">'Una promise'</span>, <span class="hljs-funct
 
   describe(<span class="hljs-string">'que no se ha completado todavía'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
 
-    xit(<span class="hljs-string">'no llama ningún success handler aún'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'no llama ningún success handler aún'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForNum.then( setFoo10 );
       expect( setFoo10 ).not.toHaveBeenCalled();
     });
@@ -235,17 +235,17 @@ describe(<span class="hljs-string">'Una promise'</span>, <span class="hljs-funct
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">'llama al success handles agregado por `.then`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama al success handles agregado por `.then`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForNum.then( setFoo10 );
       expect( setFoo10 ).toHaveBeenCalled();
     });
 
-    xit(<span class="hljs-string">"llama un success handler pasando el valor de la promesa"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">"llama un success handler pasando el valor de la promesa"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForNum.then( addToFoo );
       expect( addToFoo ).toHaveBeenCalledWith( <span class="hljs-number">25</span> );
     });
 
-    xit(<span class="hljs-string">'llama a cada success handler, una vez por cada adhesión'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama a cada success handler, una vez por cada adhesión'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForNum.then( setFoo10 );
       promiseForNum.then( addToFoo );
       promiseForNum.then( addToFoo );
@@ -254,7 +254,7 @@ describe(<span class="hljs-string">'Una promise'</span>, <span class="hljs-funct
       expect( addToFoo ).toHaveBeenCalledWith( <span class="hljs-number">25</span> );
     });
 
-    xit(<span class="hljs-string">'llama cada success handler cuando es añadido'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama cada success handler cuando es añadido'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForNum.then( setFoo10 );
       expect( foo ).toBe( <span class="hljs-number">10</span> );
       promiseForNum.then( addToFoo );
@@ -280,13 +280,13 @@ describe(<span class="hljs-string">'Una promise'</span>, <span class="hljs-funct
             <div class="content"><div class='highlight'><pre>
   describe(<span class="hljs-string">'que ya tiene un success handler'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
 
-    xit(<span class="hljs-string">'llama ese handler cuando es completado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama ese handler cuando es completado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForNum.then( setFoo10 );
       promiseForNum._internalResolve();
       expect( setFoo10 ).toHaveBeenCalled();
     });
 
-    xit(<span class="hljs-string">'llama todos los success handlers en orden una vez cuando son completados'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama todos los success handlers en orden una vez cuando son completados'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForNum.then( setFoo10 );
       promiseForNum.then( addToFoo );
       promiseForNum._internalResolve( <span class="hljs-number">25</span> );

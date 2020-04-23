@@ -28,16 +28,6 @@ Siguiendo multiples propuestas del [standard de promesas de CommonJs](http://wik
 
 Este workshop esta basado en un test spec de [Jasmine 2](https://jasmine.github.io/2.5/introduction) (separado en capítulos temáticos). Nuestras promesas van a ser llamadas `$Promise` para evitar disparar código del browser. Para concentrarse en conceptros, `pledge.js` va a usar variables publicas y no va hacer obediente al standard.
 
-##### Forkea y Clona el Repo
-
-Tomá este repo a tu maquina local y `cd` en el:
-
-```sh
-$ git clone https://github.com/fullstackacademy/pledge.git
-...
-$ cd pledge
-```
-
 ##### Ambiente
 
 Vas a necesitar Node.js y su package manager npm instalado. Asumiendo que eso es verdad, podes instalar las dependencias del repo con:

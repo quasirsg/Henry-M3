@@ -125,7 +125,7 @@ describe(<span class="hljs-string">'Otra promise'</span>, <span class="hljs-func
 
   describe(<span class="hljs-string">'que todavía no es rechazada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
 
-    xit(<span class="hljs-string">'no llama a los errors handlers aún'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'no llama a los errors handlers aún'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing.then( <span class="hljs-literal">null</span>, logOops );
       expect( logOops ).not.toHaveBeenCalled();
     });
@@ -157,22 +157,22 @@ sort of “safety check” somewhere…</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">'no llama a ningún success handler'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'no llama a ningún success handler'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing.then( logOops );
       expect( logOops ).not.toHaveBeenCalled();
     });
 
-    xit(<span class="hljs-string">'llama un error handler agregado por `.then`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama un error handler agregado por `.then`'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing.then( <span class="hljs-literal">null</span>, logOops );
       expect( logOops ).toHaveBeenCalled();
     });
 
-    xit(<span class="hljs-string">"llama un error handler pasando el valor de la promesa"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">"llama un error handler pasando el valor de la promesa"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing.then( <span class="hljs-literal">null</span>, logInput );
       expect( logInput ).toHaveBeenCalledWith( theReason );
     });
 
-    xit(<span class="hljs-string">'llama una vez cada error handler adjuntado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama una vez cada error handler adjuntado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing.then( <span class="hljs-literal">null</span>, logOops );
       promiseForThing.then( <span class="hljs-literal">null</span>, logInput );
       promiseForThing.then( <span class="hljs-literal">null</span>, logInput );
@@ -181,7 +181,7 @@ sort of “safety check” somewhere…</p>
       expect( logInput ).toHaveBeenCalledWith( theReason );
     });
 
-    xit(<span class="hljs-string">'llama cada error handler en el orden agregado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama cada error handler en el orden agregado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing.then( <span class="hljs-literal">null</span>, logOops );
       promiseForThing.then( <span class="hljs-literal">null</span>, logInput );
       expect( log ).toEqual( [{ <span class="hljs-attr">code</span>: <span class="hljs-string">'oops'</span>}, {<span class="hljs-attr">code</span>: <span class="hljs-string">'timed out'</span>}] );
@@ -193,13 +193,13 @@ sort of “safety check” somewhere…</p>
 
     <span class="hljs-keyword">var</span> theReason = { <span class="hljs-attr">code</span>: <span class="hljs-string">'unauthorized'</span> };
 
-    xit(<span class="hljs-string">'llama a ese handler cuando es rechazado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama a ese handler cuando es rechazado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing.then( <span class="hljs-literal">null</span>, logInput );
       promiseForThing._internalReject( theReason );
       expect( logInput ).toHaveBeenCalledWith( theReason );
     });
 
-    xit(<span class="hljs-string">'llama a todos sus errors handlers en orden una vez cuando es rechazado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'llama a todos sus errors handlers en orden una vez cuando es rechazado'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing.then( <span class="hljs-literal">null</span>, logInput );
       promiseForThing.then( <span class="hljs-literal">null</span>, logOops );
       promiseForThing._internalReject( theReason );
@@ -243,12 +243,12 @@ funcionando, promeses pueden ser usadas como un reemplazo al callback</p>
 
     });
 
-    xit(<span class="hljs-string">'puede hacer cosas con data completada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'puede hacer cosas con data completada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing._internalResolve({ <span class="hljs-attr">animal</span>: <span class="hljs-string">'duckling'</span> });
       expect( ui.animals[<span class="hljs-number">2</span>] ).toBe( <span class="hljs-string">'duckling'</span> );
     });
 
-    xit(<span class="hljs-string">'puede lidear con razones del reject'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'puede lidear con razones del reject'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing._internalReject({ <span class="hljs-attr">message</span>: <span class="hljs-string">'unauthorized'</span> });
       expect( ui.warning ).toBe( <span class="hljs-string">'unauthorized'</span> );
     });</pre></div></div>
@@ -267,7 +267,7 @@ funcionando, promeses pueden ser usadas como un reemplazo al callback</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">'descarta handlers que no son más necesarios'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    it(<span class="hljs-string">'descarta handlers que no son más necesarios'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
       promiseForThing._internalResolve({ <span class="hljs-attr">animal</span>: <span class="hljs-string">'chipmunk'</span> });
       expect( promiseForThing._handlerGroups ).toEqual( [] );
     });
@@ -301,7 +301,7 @@ describe(<span class="hljs-string">"Un metodo `.catch`"</span>, <span class="hlj
   });
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">myFunc</span> (<span class="hljs-params">reason</span>) </span>{ <span class="hljs-built_in">console</span>.log(reason); }
 
-  xit(<span class="hljs-string">'adjunta la función pasada como un error handler'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'adjunta la función pasada como un error handler'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     promise.catch( myFunc );
     expect( promise.then ).toHaveBeenCalledWith( <span class="hljs-literal">null</span>, myFunc );
   });</pre></div></div>
@@ -324,7 +324,7 @@ del Cap 4 en cuenta.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'devuelve lo mismo que .then devolvería'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'devuelve lo mismo que .then devolvería'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> catchReturn = promise.catch( myFunc );
     <span class="hljs-keyword">var</span> thenReturn = promise.then( <span class="hljs-literal">null</span>, myFunc );
     [catchReturn, thenReturn].forEach(sanitize);</pre></div></div>

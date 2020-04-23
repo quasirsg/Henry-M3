@@ -139,7 +139,7 @@ en orden de controlar el chaining</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'`.then` agregá una nueva promesa a su handlerGroups'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'`.then` agregá una nueva promesa a su handlerGroups'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     promiseA.then();
     <span class="hljs-keyword">var</span> groups = promiseA._handlerGroups;
     expect( groups[<span class="hljs-number">0</span>].downstreamPromise <span class="hljs-keyword">instanceof</span> $<span class="hljs-built_in">Promise</span> ).toBe( <span class="hljs-literal">true</span> );</pre></div></div>
@@ -178,7 +178,7 @@ spec en cuenta.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'`.then` devuelve ese downstreamPromise'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'`.then` devuelve ese downstreamPromise'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> promiseB = promiseA.then();
     expect( promiseB ).toBe( promiseA._handlerGroups[<span class="hljs-number">0</span>].downstreamPromise );
   });</pre></div></div>
@@ -220,7 +220,7 @@ spec en cuenta.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">"si pA es completado pero no tiene un success handler, pb es completado con el valor de pA"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"si pA es completado pero no tiene un success handler, pb es completado con el valor de pA"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseB = promiseA.then();
       promiseA._internalResolve( <span class="hljs-number">9001</span> );</pre></div></div>
             
@@ -272,7 +272,7 @@ Ignorá el <code>done</code>, necesario porque Jasmine no soporta async matchers
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">"Si pA es rechazado pero no tiene un error handler, pB es rechazado con la razón de pA"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"Si pA es rechazado pero no tiene un error handler, pB es rechazado con la razón de pA"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseB = promiseA.then();
       promiseA._internalReject( <span class="hljs-string">'darn'</span> );</pre></div></div>
             
@@ -323,7 +323,7 @@ este matcher personalizado.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">"si el success handler de pA retorna un valor `x`m pB es completado con `x`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"si el success handler de pA retorna un valor `x` pB es completado con `x`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseB = promiseA.then( thisReturnsHi );
       promiseA._internalResolve();
       expect( promiseB ).toFulfillWith( <span class="hljs-string">'hi'</span>, done );
@@ -343,7 +343,7 @@ este matcher personalizado.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">"si el error handler de pA retorna un valor `x`, pB es completado con `x`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
+    it(<span class="hljs-string">"si el error handler de pA retorna un valor `x`, pB es completado con `x`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -385,13 +385,13 @@ Pista: vas a necesitar usar <code>try</code> &amp; <code>catch</code> para hacer
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">"si el success handler de pA arroja una razon `e`, pB es rechazada con `e`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"si el success handler de pA arroja una razon `e`, pB es rechazada con `e`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseB = promiseA.then( thisThrowsShade );
       promiseA._internalResolve();
       expect( promiseB ).toRejectWith( <span class="hljs-string">'shade'</span>, done );
     }, FAST_TIMEOUT);
 
-    xit(<span class="hljs-string">"si el error handler de pA arroja una razon `e`, pB es rechazada con `e`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"si el error handler de pA arroja una razon `e`, pB es rechazada con `e`"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseB = promiseA.catch( thisThrowsShade );
       promiseA._internalReject();
       expect( promiseB ).toRejectWith( <span class="hljs-string">'shade'</span>, done );
@@ -415,7 +415,7 @@ tests pueden causar dolores de cabeza</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    xit(<span class="hljs-string">"si el success handler de pA retorna pZ que se completa, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"si el success handler de pA retorna pZ que se completa, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseZ = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
       <span class="hljs-keyword">var</span> promiseB = promiseA.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
         <span class="hljs-keyword">return</span> promiseZ;
@@ -425,7 +425,7 @@ tests pueden causar dolores de cabeza</p>
       expect( promiseB ).toFulfillWith( <span class="hljs-string">'testing'</span>, done );
     }, FAST_TIMEOUT);
 
-    xit(<span class="hljs-string">"si el error handler de pA retorna pZ la cual se completa, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"si el error handler de pA retorna pZ la cual se completa, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseZ = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
       <span class="hljs-keyword">var</span> promiseB = promiseA.catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
         <span class="hljs-keyword">return</span> promiseZ;
@@ -435,7 +435,7 @@ tests pueden causar dolores de cabeza</p>
       expect( promiseB ).toFulfillWith( <span class="hljs-string">'testing'</span>, done );
     }, FAST_TIMEOUT);
 
-    xit(<span class="hljs-string">"si el success handler de pA retorna pZ que se rechaza, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"si el success handler de pA retorna pZ que se rechaza, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseZ = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
       <span class="hljs-keyword">var</span> promiseB = promiseA.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
         <span class="hljs-keyword">return</span> promiseZ;
@@ -445,7 +445,7 @@ tests pueden causar dolores de cabeza</p>
       expect( promiseB ).toRejectWith( <span class="hljs-string">'testing'</span>, done );
     }, FAST_TIMEOUT);
 
-    xit(<span class="hljs-string">"si el error handler de pA retorna pZ que se rechaza, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+    it(<span class="hljs-string">"si el error handler de pA retorna pZ que se rechaza, pB imita a pZ"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
       <span class="hljs-keyword">var</span> promiseZ = <span class="hljs-keyword">new</span> $<span class="hljs-built_in">Promise</span>(noop);
       <span class="hljs-keyword">var</span> promiseB = promiseA.catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
         <span class="hljs-keyword">return</span> promiseZ;
@@ -485,7 +485,7 @@ Pero quizás no…</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    xit(<span class="hljs-string">'igual conecta correctamente si la promesa ya esta colocada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    it(<span class="hljs-string">'igual conecta correctamente si la promesa ya esta colocada'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -619,7 +619,7 @@ Pero quizás no…</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-  xit(<span class="hljs-string">'`.then` puede ser encadenado muchas veces'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  it(<span class="hljs-string">'`.then` puede ser encadenado muchas veces'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">var</span> add1 = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">num</span>) </span>{ <span class="hljs-keyword">return</span> ++num; };
     <span class="hljs-keyword">var</span> test = <span class="hljs-number">0</span>;
     promiseA
@@ -632,7 +632,6 @@ Pero quizás no…</p>
     promiseA._internalResolve( <span class="hljs-number">0</span> );
     expect( test ).toBe( <span class="hljs-number">2</span> );
   });
-
 });</pre></div></div>
             
         </li>
