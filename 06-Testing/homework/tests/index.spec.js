@@ -42,5 +42,16 @@ describe('Test de APIS', () => {
         })
     );
   });
+
+  describe('POST /sumArray', () => {
+    it('responds with 200', () => agent.get('/test').expect(200));
+    it('responds with and object with message `test`', () =>
+      agent.post('/sumArray')
+        .send({array: [2,5,7,10,11,15,20], num: 13})
+        .then((res) => {
+          expect(res.body.result).to.be.equal(true);
+      }));
+  });
+
 });
 

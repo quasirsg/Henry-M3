@@ -21,14 +21,21 @@ npm test
 
 ## Que hacemos?
 
-
 ### Pasar todos los tests
 
 Primero vamos a hacer que los test que están pasen. Es decir que vamos a agregar, o modificar nuestra app hasta que pasen todos los tests.
 
+### Agregar nuevos tests
+
+El test de la ruta `sumArray` está incompleto. Falta testar por el caso que devuelva `false`. También falta testear que no sumen dos veces el mismo número para encontrar el resultado.
+
 ### Agregar nueva funcionalidad
 
-Ahora vamos a agregar una nueva funcionalidad. Vamos a crear un endpoint que reciba un string y devuelva el número de caracteres que tiene ese string.
+Ahora vamos a agregar una nueva funcionalidad.
+
+#### NumString
+
+Vamos a crear un endpoint `/numString` que reciba un string y devuelva el número de caracteres que tiene ese string.
 Primero vamos a escribir los tests, y luego codear para que pasen:
 Nuestro nuevo endpoint deberia:
 
@@ -37,18 +44,13 @@ Nuestro nuevo endpoint deberia:
 * Responder con un status 400 (bad request) si el string es un número.
 * Responder con un status 400 (bad request) si el string esta vacio.
 
-##### Modelo Product
+#### Pluck
 
-Crea los tests y luego el modelo para el siguiente modelo de `Product`
+Vamos a crear un endpoint `/pluck` que reciba un arreglo de objetos y un nombbre de una propiedad y devuelva un arreglo sólo con los valores de esa propiedad.
 
-* Tiene que tener un `name` obligatoriamente
-* El `name` tiene que ser un string
-* El nombre tiene que ser minimo 6 maximo 15 caracteres.
-* Tiene que tener un `price` obligatorio que sea tipo integer.
-* Tiene que tener una `description` de tipo text.
-* Tiene que ser un numero positivo
-* Tiene que tener un Instance method `toCurrency` que tome un tipo de cambio y devulva el precio convertido: eg. `toCurrency(18)` devuelve el precio en dolares.
-* Tiene que tener un hook `beforeCreate` que se fije si el producto no tiene una description, la setie a noDescription
-* Tiene que tener un getter `trimDescription` que devuelva una description que se asegure que corte la description si se excede de los 20 chars. Si la corta tiene que terminar con un `...`, sino debería mostrar el description original.
-* Tiene que tener un class Method `findPricesGreaterThan` que devuelva una promesa de un arreglo de productos con precios mayores que el arguemnto pasado a la función: eg. `findPricesGreaterThan(10).then(prods => {})` prods sería un arreglo de productos con precios mayores a 10.
-* Tiene un setter method `setPrice` que tome un precio y lo setie como el nuevo precio.
+Nuestro nuevo endpoint deberia:
+
+* Responder con status 200.
+* Responder con al funcionalidad del pluck.
+* Responder con un status 400 (bad request) si array no es un arreglo.
+* Responder con un status 400 (bad request) si el string propiedad está vacio.

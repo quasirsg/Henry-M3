@@ -85,13 +85,11 @@ Mocha viene con muchas features copadas, en su [website](https://mochajs.org/) l
 * Tenés distintos `hooks` como `before`, `after`, `before each`, `after` que nos van a dar la posibilidad de armar/limpiar el ambiante antes y después de cada prueba (si es necesario).
 * Podés combinarlo con varias librerías de assertion.
 
-Vamos a intalar `mocha` globalmente con `npm`, para poder usarlo como un comando:
+Vamos a intalar `mocha` con `npm`, para poder usarlo dentro del proyecto:
 
 ```
-npm install --global mocha
+npm install  mocha
 ```
-
-> Depende del proyecto, nos puede llegar a convenir instalar mocha como una dependencia del mismo. Ya que por ejemplo, si pasa mucho tiempo y `mocha` se actualiza bastante (sin compatibilidad), es muy probable que al actualizar el global, no nos funcionen los tests por problemas de compatibilidad.
 
 Para crear nuestras pruebas vamos a armar uno o varios archivos `.js` que luego vamos a ejecutar con mocha. Dentro de ellos vamos a usar las funciones que nos provee la librería:
 
