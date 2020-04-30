@@ -1,0 +1,15 @@
+{
+  "name": "ejemplos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "chai.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.2"
+  }
+}
