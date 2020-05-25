@@ -112,6 +112,26 @@ describe('Request', () => {
     server.posts.splice(0, server.posts.length);
   });
 
+  describe(`${METHOD_POST} ${PATH}`, () => {
+    it('Agrega un nuevo Post', () => {
+      const post = { title: 'first title', contents: 'first contents' };
+      return addPost(post)
+        .then(() => req(METHOD_GET, STATUS_OK))
+        .then((posts) => {
+          expect(posts).to.have.length(1);
+          expect(posts[0]).to.deep.equal(post);
+        });
+    });
+
+    it('Informa que falta el parámetro `title`', () => {
+      return req(METHOD_POST, STATUS_USER_ERROR, { contents: 'contents' });
+    });
+
+    it('Informa que falta el parámetro `contents`', () => {
+      return req(METHOD_POST, STATUS_USER_ERROR, { title: 'title' });
+    });
+  });
+
   describe(`${METHOD_GET} ${PATH}`, () => {
     it('Obtiene el listado de Posts', () => {
       return req(METHOD_GET, STATUS_OK)
@@ -147,26 +167,6 @@ describe('Request', () => {
           expect(found).to.have.length(1);
           expect(found).to.deep.include(posts[1]);
         });
-    });
-  });
-
-  describe(`${METHOD_POST} ${PATH}`, () => {
-    it('Agrega un nuevo Post', () => {
-      const post = { title: 'first title', contents: 'first contents' };
-      return addPost(post)
-        .then(() => req(METHOD_GET, STATUS_OK))
-        .then((posts) => {
-          expect(posts).to.have.length(1);
-          expect(posts[0]).to.deep.equal(post);
-        });
-    });
-
-    it('Informa que falta el parámetro `title`', () => {
-      return req(METHOD_POST, STATUS_USER_ERROR, { contents: 'contents' });
-    });
-
-    it('Informa que falta el parámetro `contents`', () => {
-      return req(METHOD_POST, STATUS_USER_ERROR, { title: 'title' });
     });
   });
 
