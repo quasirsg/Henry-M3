@@ -321,7 +321,7 @@ Cuando la usamos en la web, van a estar montadas sobre el protocolo `http`, por 
 
 #### Endpoints
 
-Un endpoint en un web api especifica donde están los recursos que pueden ser accedidos desde afuera de la API. Por ejemplo: `https://api.clarifai.com/v1/tag/` especifica un endpoint de la API de `Clarifai`.
+Un endpoint en un web api especifica donde están los recursos que pueden ser accedidos desde afuera de la API. Por ejemplo: `https://api.punkapi.com/v2/beers` especifica un endpoint de la API de `Punk Api`.
 
 > Noten que esta API tiene la versión, por lo tanto ofrece compatibilidad hacia atrás.
 

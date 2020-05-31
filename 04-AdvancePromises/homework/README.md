@@ -45,7 +45,7 @@ Para ejecutrar los specs, simplemente ingresa en la terminal el comando:
 $ npm test
 ```
 
-y abrí el link mostrado en tu terminal. Vas a ver todos los tests como _"pending"_. Comenzá escribiendo tu propiop código en el archivo `pledge.js`. Cuando pasas un test, cambia el siguiente test pendiente de `xit` a `it` y guardalo. 
+y abrí el link mostrado en tu terminal. Vas a ver todos los tests como _"pending"_. Comenzá escribiendo tu propio código en el archivo `pledge.js`. Cuando pasas un test, cambia el siguiente test pendiente de `xit` a `it` y guardalo.
 
 Este spec es iterativo y opinionado; deberías hacer los test en orden. Comenzá con `pledge.spec.ch1.js`, y cuando lo completes segui al Capitulo 2 (y asi...). No remuevas capitulos viejos de tu test output - los tests son acumulativos, entonces si fallás en notar un test que se rompe a tiempo podés meterte en un problema muy grande.   
 

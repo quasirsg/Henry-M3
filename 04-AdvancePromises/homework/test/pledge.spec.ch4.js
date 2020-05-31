@@ -44,7 +44,7 @@ describe('por una dada promiseA (pA)', function(){
   // referencia a la promesa de abajo (downstreamPromise)
   // en orden de controlar el chaining
 
-  it('`.then` agregá una nueva promesa a su handlerGroups', function(){
+  xit('`.then` agregá una nueva promesa a su handlerGroups', function(){
     promiseA.then();
     var groups = promiseA._handlerGroups;
     expect( groups[0].downstreamPromise instanceof $Promise ).toBe( true );
@@ -58,7 +58,7 @@ describe('por una dada promiseA (pA)', function(){
   // vas a tener que ir para atras y arreglar `.catch`, tomando este
   // spec en cuenta.
 
-  it('`.then` devuelve ese downstreamPromise', function(){
+  xit('`.then` devuelve ese downstreamPromise', function(){
     var promiseB = promiseA.then();
     expect( promiseB ).toBe( promiseA._handlerGroups[0].downstreamPromise );
   });
@@ -76,7 +76,7 @@ describe('por una dada promiseA (pA)', function(){
 
     // Fulfillment baja al primer success handler disponible.
 
-    it("si pA es completado pero no tiene un success handler, pb es completado con el valor de pA", function (done) {
+    xit("si pA es completado pero no tiene un success handler, pb es completado con el valor de pA", function (done) {
       var promiseB = promiseA.then();
       promiseA._internalResolve( 9001 );
       // No setea un estado manualmente; un resolver debería ser llamado.
@@ -90,7 +90,7 @@ describe('por una dada promiseA (pA)', function(){
 
     // Rejection baja al primer error handler disponible.
 
-    it("Si pA es rechazado pero no tiene un error handler, pB es rechazado con la razón de pA", function (done) {
+    xit("Si pA es rechazado pero no tiene un error handler, pB es rechazado con la razón de pA", function (done) {
       var promiseB = promiseA.then();
       promiseA._internalReject( 'darn' );
       // No setea el estado manualmente; un rejector debería ser llamado
@@ -103,7 +103,7 @@ describe('por una dada promiseA (pA)', function(){
 
     // Esto es para valores normales (sincrónico / non-promise) retornados
 
-    it("si el success handler de pA retorna un valor `x` pB es completado con `x`", function (done) {
+    xit("si el success handler de pA retorna un valor `x` pB es completado con `x`", function (done) {
       var promiseB = promiseA.then( thisReturnsHi );
       promiseA._internalResolve();
       expect( promiseB ).toFulfillWith( 'hi', done );
@@ -111,7 +111,7 @@ describe('por una dada promiseA (pA)', function(){
 
     // Esto es para valores normales (sincrónico / non-promise) retornados
 
-    it("si el error handler de pA retorna un valor `x`, pB es completado con `x`", function (done) {
+    xit("si el error handler de pA retorna un valor `x`, pB es completado con `x`", function (done) {
       // ¿Por qué completado? Esto es similar a `try`-`catch`. Si la
       // promiseA es rechazada (equivalente a un `try` fallido), pasamos
       // la razón al error handler de promiseA (equivalente a `catch`).
@@ -128,13 +128,13 @@ describe('por una dada promiseA (pA)', function(){
     // Excepciones causan que la promesa retornado sea rechazada con un error
     // Pista: vas a necesitar usar `try` & `catch` para hacer que esto funcione
 
-    it("si el success handler de pA arroja una razon `e`, pB es rechazada con `e`", function (done) {
+    xit("si el success handler de pA arroja una razon `e`, pB es rechazada con `e`", function (done) {
       var promiseB = promiseA.then( thisThrowsShade );
       promiseA._internalResolve();
       expect( promiseB ).toRejectWith( 'shade', done );
     }, FAST_TIMEOUT);
 
-    it("si el error handler de pA arroja una razon `e`, pB es rechazada con `e`", function (done) {
+    xit("si el error handler de pA arroja una razon `e`, pB es rechazada con `e`", function (done) {
       var promiseB = promiseA.catch( thisThrowsShade );
       promiseA._internalReject();
       expect( promiseB ).toRejectWith( 'shade', done );
@@ -146,7 +146,7 @@ describe('por una dada promiseA (pA)', function(){
     // copiando el comportamiento de pZ - a.k.a asimilación. EStos cuatro
     // tests pueden causar dolores de cabeza
 
-    it("si el success handler de pA retorna pZ que se completa, pB imita a pZ", function (done) {
+    xit("si el success handler de pA retorna pZ que se completa, pB imita a pZ", function (done) {
       var promiseZ = new $Promise(noop);
       var promiseB = promiseA.then(function(){
         return promiseZ;
@@ -156,7 +156,7 @@ describe('por una dada promiseA (pA)', function(){
       expect( promiseB ).toFulfillWith( 'testing', done );
     }, FAST_TIMEOUT);
 
-    it("si el error handler de pA retorna pZ la cual se completa, pB imita a pZ", function (done) {
+    xit("si el error handler de pA retorna pZ la cual se completa, pB imita a pZ", function (done) {
       var promiseZ = new $Promise(noop);
       var promiseB = promiseA.catch(function(){
         return promiseZ;
@@ -166,7 +166,7 @@ describe('por una dada promiseA (pA)', function(){
       expect( promiseB ).toFulfillWith( 'testing', done );
     }, FAST_TIMEOUT);
 
-    it("si el success handler de pA retorna pZ que se rechaza, pB imita a pZ", function (done) {
+    xit("si el success handler de pA retorna pZ que se rechaza, pB imita a pZ", function (done) {
       var promiseZ = new $Promise(noop);
       var promiseB = promiseA.then(function(){
         return promiseZ;
@@ -176,7 +176,7 @@ describe('por una dada promiseA (pA)', function(){
       expect( promiseB ).toRejectWith( 'testing', done );
     }, FAST_TIMEOUT);
 
-    it("si el error handler de pA retorna pZ que se rechaza, pB imita a pZ", function (done) {
+    xit("si el error handler de pA retorna pZ que se rechaza, pB imita a pZ", function (done) {
       var promiseZ = new $Promise(noop);
       var promiseB = promiseA.catch(function(){
         return promiseZ;
@@ -193,7 +193,7 @@ describe('por una dada promiseA (pA)', function(){
     // la nueva promesa. Pero por supuesto podés conectar en promesas
     // ya colocadas! Tu solución puede ya estar pasando esto.
     // Pero quizás no...
-    it('igual conecta correctamente si la promesa ya esta colocada', function (done) {
+    xit('igual conecta correctamente si la promesa ya esta colocada', function (done) {
       // utility / helper functions
       var count = 0, shouldFulfill, shouldReject;
       function countPassed () { if (++count === 10) done(); }
@@ -237,7 +237,7 @@ describe('por una dada promiseA (pA)', function(){
 
   // Otra demostración. Esto debería funcionar si los previos specs pasaron.
 
-  it('`.then` puede ser encadenado muchas veces', function(){
+  xit('`.then` puede ser encadenado muchas veces', function(){
     var add1 = function (num) { return ++num; };
     var test = 0;
     promiseA

@@ -46,7 +46,7 @@ Nuestro nuevo endpoint deberia:
 
 #### Pluck
 
-Vamos a crear un endpoint `/pluck` que reciba un arreglo de objetos y un nombbre de una propiedad y devuelva un arreglo sólo con los valores de esa propiedad.
+Vamos a crear un endpoint `/pluck` que reciba un arreglo de objetos y un nombre de una propiedad y devuelva un arreglo sólo con los valores de esa propiedad.
 
 Nuestro nuevo endpoint deberia:
 

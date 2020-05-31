@@ -42,7 +42,7 @@ describe('Otra promise', function(){
 
   describe('que todavía no es rechazada', function(){
 
-    it('no llama a los errors handlers aún', function(){
+    xit('no llama a los errors handlers aún', function(){
       promiseForThing.then( null, logOops );
       expect( logOops ).not.toHaveBeenCalled();
     });
@@ -62,22 +62,22 @@ describe('Otra promise', function(){
     // those `handlerGroups`? There is going to have to be some
     // sort of "safety check" somewhere…
 
-    it('no llama a ningún success handler', function(){
+    xit('no llama a ningún success handler', function(){
       promiseForThing.then( logOops );
       expect( logOops ).not.toHaveBeenCalled();
     });
 
-    it('llama un error handler agregado por `.then`', function(){
+    xit('llama un error handler agregado por `.then`', function(){
       promiseForThing.then( null, logOops );
       expect( logOops ).toHaveBeenCalled();
     });
 
-    it("llama un error handler pasando el valor de la promesa", function(){
+    xit("llama un error handler pasando el valor de la promesa", function(){
       promiseForThing.then( null, logInput );
       expect( logInput ).toHaveBeenCalledWith( theReason );
     });
 
-    it('llama una vez cada error handler adjuntado', function(){
+    xit('llama una vez cada error handler adjuntado', function(){
       promiseForThing.then( null, logOops );
       promiseForThing.then( null, logInput );
       promiseForThing.then( null, logInput );
@@ -86,7 +86,7 @@ describe('Otra promise', function(){
       expect( logInput ).toHaveBeenCalledWith( theReason );
     });
 
-    it('llama cada error handler en el orden agregado', function(){
+    xit('llama cada error handler en el orden agregado', function(){
       promiseForThing.then( null, logOops );
       promiseForThing.then( null, logInput );
       expect( log ).toEqual( [{ code: 'oops'}, {code: 'timed out'}] );
@@ -98,13 +98,13 @@ describe('Otra promise', function(){
 
     var theReason = { code: 'unauthorized' };
 
-    it('llama a ese handler cuando es rechazado', function(){
+    xit('llama a ese handler cuando es rechazado', function(){
       promiseForThing.then( null, logInput );
       promiseForThing._internalReject( theReason );
       expect( logInput ).toHaveBeenCalledWith( theReason );
     });
 
-    it('llama a todos sus errors handlers en orden una vez cuando es rechazado', function(){
+    xit('llama a todos sus errors handlers en orden una vez cuando es rechazado', function(){
       promiseForThing.then( null, logInput );
       promiseForThing.then( null, logOops );
       promiseForThing._internalReject( theReason );
@@ -136,19 +136,19 @@ describe('Otra promise', function(){
 
     });
 
-    it('puede hacer cosas con data completada', function(){
+    xit('puede hacer cosas con data completada', function(){
       promiseForThing._internalResolve({ animal: 'duckling' });
       expect( ui.animals[2] ).toBe( 'duckling' );
     });
 
-    it('puede lidear con razones del reject', function(){
+    xit('puede lidear con razones del reject', function(){
       promiseForThing._internalReject({ message: 'unauthorized' });
       expect( ui.warning ).toBe( 'unauthorized' );
     });
 
     // Opcional pero recomendable garbage collection
 
-    it('descarta handlers que no son más necesarios', function(){
+    xit('descarta handlers que no son más necesarios', function(){
       promiseForThing._internalResolve({ animal: 'chipmunk' });
       expect( promiseForThing._handlerGroups ).toEqual( [] );
     });
@@ -170,7 +170,7 @@ describe("Un metodo `.catch`", function(){
   });
   function myFunc (reason) { console.log(reason); }
 
-  it('adjunta la función pasada como un error handler', function(){
+  xit('adjunta la función pasada como un error handler', function(){
     promise.catch( myFunc );
     expect( promise.then ).toHaveBeenCalledWith( null, myFunc );
   });
@@ -181,7 +181,7 @@ describe("Un metodo `.catch`", function(){
   // que retornar aquí y arreglar `.catch` - esta vez, tomando los specs
   // del Cap 4 en cuenta.
 
-  it('devuelve lo mismo que .then devolvería', function(){
+  xit('devuelve lo mismo que .then devolvería', function(){
     var catchReturn = promise.catch( myFunc );
     var thenReturn = promise.then( null, myFunc );
     [catchReturn, thenReturn].forEach(sanitize);
