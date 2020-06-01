@@ -167,10 +167,6 @@ require('./hola.js');
 saludar();
 ```
 
-Veamos el resultado:
-
-![require-error](./img/requireerror.png)
-
 saludar no está definido! recibimos un error. De hecho, esto está bien que suceda. Se acuerdan que dijimos que un módulo no debería afectar otro código accidentalmente? Eso quiere decir que el código está protegido y que no podemos simplemente usarlo y acceder a los objetos fuera de ese módulo.
 
 ![simply](./img/simply.jpg)
@@ -351,8 +347,6 @@ Para instalar un paquete se utiliza el comando `npm` con el argumento `install` 
 Para poder trackear las dependencias y los paquetes que tenemos instalados, npm hace uso de un archivo de _configuración_ al que llama **package.json**. Este es básicamente un archivo de texto en formato JSON con el listado de dependencias de tu aplicación, de esta forma con sólo compartir ese archivo cualquiera sabrá qué paquetes se deben instalar, e incluso hacerlo de forma automática.
 
 Para crear este archivo npm nos da el comando `npm init`, que es una forma interactiva de crear el 'package.json'.
-
-![Npm-Init](./img/npmInit.png)
 
 * entry point: Indica cúal es el archivo javascript que Node debe correr para arrancar la aplicación.
 
