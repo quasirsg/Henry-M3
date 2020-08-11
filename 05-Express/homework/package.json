@@ -1,9 +1,9 @@
 {
   "name": "node-express",
   "version": "0.0.1",
-  "description": "LambdaSchool Node.js and Express",
+  "description": "Node.js and Express homework",
   "scripts": {
-    "test": "mocha -R nyan tests",
+    "test": "mocha tests",
     "test:watch": "npm test -- --watch",
     "nodemon": "nodemon src/app.js"
   },
